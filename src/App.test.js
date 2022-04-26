@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import App from './App';
 
 //***** TELA DE LOGIN *****;
+//***** requisitos  2 ao 5 *****/
 describe('Testa se os seguintes elementos estão presentes', () => {
   beforeEach(() => {
     render(

@@ -8,8 +8,8 @@ const Provider = ({ children }) => {
   const [btn, setBtn] = useState(true);
 
   const validation = () => {
-    const MIN_LENGTH = 7;
-    const requiredPassword = password.length >= MIN_LENGTH;
+    const MIN_LENGTH = 6;
+    const requiredPassword = password.length > MIN_LENGTH;
     const requiredEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const validateEmail = requiredEmail.test(email);
 
