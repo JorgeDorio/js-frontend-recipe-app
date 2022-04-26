@@ -1,6 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import context from '../context/context';
 
 function Login() {
+  const { email, setEmail, password, setPassword, btn } = useContext(context);
+
+  const handleEmailChange = ({ target }) => {
+    setEmail(target.value);
+  };
+
+  const handlePasswordChange = ({ target }) => {
+    setPassword(target.value);
+  };
+
   return (
     <>
       <h1>
@@ -14,6 +25,9 @@ function Login() {
         <input
           id="email"
           data-testid="email-input"
+          value={ email }
+          type="text"
+          onChange={ handleEmailChange }
         />
       </label>
       <label
@@ -23,11 +37,15 @@ function Login() {
         <input
           id="password"
           data-testid="password-input"
+          value={ password }
+          type="password"
+          onChange={ handlePasswordChange }
         />
       </label>
       <button
-        type="button"
+        type="submit"
         data-testid="login-submit-btn"
+        disabled={ btn }
       >
         Entrar
       </button>
