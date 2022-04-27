@@ -1,8 +1,11 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import context from '../context/context';
+import { setTokens, setStorageEmail } from '../storage';
 
 function Login() {
   const { email, setEmail, password, setPassword, btn } = useContext(context);
+  const history = useHistory();
 
   const handleEmailChange = ({ target }) => {
     setEmail(target.value);
@@ -10,6 +13,12 @@ function Login() {
 
   const handlePasswordChange = ({ target }) => {
     setPassword(target.value);
+  };
+
+  const handleSubmitBtn = () => {
+    setTokens();
+    setStorageEmail(email);
+    history.push('/foods');
   };
 
   return (
@@ -46,6 +55,7 @@ function Login() {
         type="submit"
         data-testid="login-submit-btn"
         disabled={ btn }
+        onClick={ handleSubmitBtn }
       >
         Entrar
       </button>
