@@ -15,7 +15,9 @@ const Provider = ({ children }) => {
 
     const isValid = requiredPassword && validateEmail;
     if (isValid) {
-      setBtn(!isValid);
+      setBtn(false);
+    } else {
+      setBtn(true);
     }
   };
 
