@@ -1,17 +1,14 @@
-import React, { useContext, useState } from 'react';
-import context from '../context/context';
+import React from 'react';
+import CategoryList from '../components/CategoryList';
 import Header from '../components/Header';
+import Card from '../components/Card';
 
 function Foods() {
-  const { categories } = useContext(context);
-  const [categoriesList, setCategoriesList] = useState([]);
-
-  console.log(categoriesList);
   return (
     <>
       <Header />
-      {console.log(categories)}
-      <h2>Foods</h2>
+      <CategoryList />
+      <Card />
     </>
   );
 }

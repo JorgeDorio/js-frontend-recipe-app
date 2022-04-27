@@ -1,27 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import context from './context';
-import getCategories from '../services/getApi';
+import ApiContext from './ApiContext';
+import { getCategories, getCategoriesDrinks, getDrinks,
+  getMeals } from '../services/getApi';
 
 const ApiProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
+  const [drinkCategories, setDrinkCategories] = useState([]);
+  const [meals, setMeals] = useState([]);
+  const [drinks, setDrinks] = useState([]);
 
   const getApiCategories = async () => {
     const api = await getCategories();
     setCategories(api);
-    console.log(categories);
+  };
+
+  const getApiDrinkCategories = async () => {
+    const api = await getCategoriesDrinks();
+    setDrinkCategories(api);
+  };
+
+  const getApiMeals = async () => {
+    const api = await getMeals();
+    setMeals(api);
+  };
+
+  const getApiDrinks = async () => {
+    const api = await getDrinks();
+    setDrinks(api);
   };
 
   useEffect(() => {
     getApiCategories();
+    getApiDrinkCategories();
+    getApiMeals();
+    getApiDrinks();
   }, []);
 
-  const values = { categories };
+  const values = {
+    categories,
+    drinkCategories,
+    meals,
+    drinks,
+  };
 
   return (
-    <context.Provider value={ values }>
+    <ApiContext.Provider value={ values }>
       { children }
-    </context.Provider>
+    </ApiContext.Provider>
   );
 };
 
