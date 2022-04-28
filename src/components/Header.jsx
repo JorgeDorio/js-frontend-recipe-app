@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import '../style/header.css';
 
 const Header = () => {
   const history = useHistory();
@@ -17,7 +18,7 @@ const Header = () => {
 
   return (
     <div>
-      <header>
+      <header id="header">
         {/* IMG roles visto em: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img */}
         <img
           role="presentation"

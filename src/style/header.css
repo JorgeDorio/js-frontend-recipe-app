@@ -1,0 +1,12 @@
+header {
+  background-color: #c9c9c9;
+  display: flex;
+  justify-content: space-around;
+}
+
+footer {
+  background-color: #c9c9c9;
+  display: flex;
+  justify-content: space-around;
+  padding: 8px;
+}
