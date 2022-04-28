@@ -57,6 +57,13 @@ export const getMealsIngredients = async (query) => {
   return meals;
 };
 
+export const getMealsName = async (query) => {
+  const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`;
+  const request = await fetch(url);
+  const { meals } = await request.json();
+  return meals;
+};
+
 export const getDrinksFirstLetter = async (query) => {
   const url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${query}`;
   const request = await fetch(url);

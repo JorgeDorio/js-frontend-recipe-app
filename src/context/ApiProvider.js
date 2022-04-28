@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ApiContext from './ApiContext';
-import { getCategories, getCategoriesDrinks, getDrinks,
+import {
+  getCategories,
+  getCategoriesDrinks,
+  getDrinks,
   getMeals,
-  getMealsByCategory, getDrinksByCategory } from '../services/getApi';
+  getMealsByCategory,
+  getDrinksByCategory,
+  getMealsIngredients,
+  getMealsName,
+  getMealsFirstLetter,
+} from '../services/getApi';
 
 const ApiProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
@@ -11,6 +19,23 @@ const ApiProvider = ({ children }) => {
   const [meals, setMeals] = useState([]);
   const [drinks, setDrinks] = useState([]);
   const [filtered, setFiltered] = useState(false);
+  const [radioValue, setRadioValue] = useState('');
+  const [searchInputValue, setSearchInputValue] = useState('');
+
+  const getApiMealsByIngredients = async (query) => {
+    const api = await getMealsIngredients(query);
+    setMeals(api);
+  };
+
+  const getApiMealsByName = async (query) => {
+    const api = await getMealsName(query);
+    setMeals(api);
+  };
+
+  const getApiMealsByFirstLetter = async (query) => {
+    const api = await getMealsFirstLetter(query);
+    setMeals(api);
+  };
 
   const getApiCategories = async () => {
     const api = await getCategories();
@@ -64,6 +89,13 @@ const ApiProvider = ({ children }) => {
     setFiltered,
     getApiMeals,
     getApiDrinks,
+    radioValue,
+    setRadioValue,
+    searchInputValue,
+    setSearchInputValue,
+    getApiMealsByIngredients,
+    getApiMealsByName,
+    getApiMealsByFirstLetter,
   };
 
   return (

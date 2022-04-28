@@ -5,7 +5,15 @@ import ApiContext from '../context/ApiContext';
 function Card() {
   const { meals } = useContext(ApiContext);
   const RECIPES_LENGTH = 12;
-  const twelveMeals = meals.slice(0, RECIPES_LENGTH);
+  console.log(meals);
+  const validMeals = meals.length > RECIPES_LENGTH;
+  let twelveMeals = '';
+  if (validMeals) {
+    twelveMeals = meals.slice(0, RECIPES_LENGTH);
+  } else {
+    twelveMeals = meals;
+  }
+
   return (
     <div>
       {twelveMeals && twelveMeals.map((meal, i) => (
