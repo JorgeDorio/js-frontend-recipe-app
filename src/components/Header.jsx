@@ -29,23 +29,29 @@ const Header = () => {
         />
 
         <h2 data-testid="page-title">{routes[location.pathname]}</h2>
-        {searchInput
-          ? (
-            <>
+
+        <button
+          type="button"
+          onClick={ () => setSearchInput(!searchInput) }
+        >
+
+          <img
+            role="presentation"
+            data-testid="search-top-btn"
+            src={ searchIcon }
+            alt="search-icon"
+          />
+        </button>
+
+      </header>
+
+      {searchInput
+        ? (
+          <form>
+            <section className="search-input">
               <input data-testid="search-input" />
-
-              <button
-                type="button"
-                onClick={ () => setSearchInput(false) }
-              >
-
-                <img
-                  role="presentation"
-                  data-testid="search-top-btn"
-                  src={ searchIcon }
-                  alt="search-icon"
-                />
-              </button>
+            </section>
+            <section className="radio-btns">
               <label htmlFor="ingredients">
                 Ingredients
                 <input
@@ -81,25 +87,11 @@ const Header = () => {
                   label="Primeira Letra"
                 />
               </label>
+            </section>
+            <button type="button" data-testid="exec-search-btn">Busca</button>
+          </form>
+        ) : null }
 
-              <button type="button" data-testid="exec-search-btn">Busca</button>
-            </>
-          )
-          : (
-            <button
-              type="button"
-              onClick={ () => setSearchInput(true) }
-            >
-
-              <img
-                role="presentation"
-                data-testid="search-top-btn"
-                src={ searchIcon }
-                alt="search-icon"
-              />
-            </button>
-          )}
-      </header>
     </div>
   );
 };

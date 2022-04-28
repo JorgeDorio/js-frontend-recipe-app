@@ -1,7 +1,23 @@
 header {
+  align-items: center;
   background-color: #c9c9c9;
   display: flex;
   justify-content: space-around;
+  padding: 10px;
+  width: 100%;
+}
+
+form {
+  text-align: center;
+}
+
+.search-input {
+  margin-top: 8px;
+}
+
+.radio-btns {
+  display: flex;
+  justify-content: space-evenly;
 }
 
 footer {
