@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-
+import '../style/header.css';
 import exploreIcon from '../images/exploreIcon.svg';
 import drinkIcon from '../images/drinkIcon.svg';
 import mealIcon from '../images/mealIcon.svg';
@@ -9,7 +9,7 @@ const Footer = () => {
   const history = useHistory();
 
   return (
-    <footer data-testid="footer" className="position-fixed fixed-bottom">
+    <footer id="footer" data-testid="footer" className="position-fixed fixed-bottom">
 
       <img
         data-testid="drinks-bottom-btn"
