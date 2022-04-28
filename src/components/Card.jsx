@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import ApiContext from '../context/ApiContext';
 
 function Card() {
@@ -8,7 +9,8 @@ function Card() {
   return (
     <div>
       {twelveMeals && twelveMeals.map((meal, i) => (
-        <div
+        <Link
+          to={ `/foods/${meal.idMeal}` }
           key={ meal.idMeal }
           data-testid={ `${i}-recipe-card` }
         >
@@ -23,7 +25,7 @@ function Card() {
           >
             { meal.strMeal }
           </p>
-        </div>
+        </Link>
 
       ))}
     </div>
