@@ -39,6 +39,7 @@ const Header = () => {
     }
   };
 
+  // lógica do aviso global e do search Input;
   const handleInputChange = (value) => {
     if (value.length > 1 && radioValue === 'value-first-letter') {
       global.alert('Your search must have only 1 (one) character');
