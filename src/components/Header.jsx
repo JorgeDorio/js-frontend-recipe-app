@@ -4,6 +4,7 @@ import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import '../style/header.css';
 import ApiContext from '../context/ApiContext';
+import verifyMeals from '../helpers';
 
 const VALUE_INGREDIENTS = 'value-ingredients';
 const VALUE_NAME = 'value-name';
@@ -16,6 +17,8 @@ const Header = () => {
   const [showBar, setShowBar] = useState(false);
 
   const {
+    meals,
+    drinks,
     setRadioValue,
     radioValue,
     searchInputValue,
@@ -35,6 +38,7 @@ const Header = () => {
   };
 
   const handleClick = (radio, inputValue) => {
+    verifyMeals(meals, drinks, searchInputValue);
     if (location.pathname === '/foods') {
       switch (radio) {
       case VALUE_INGREDIENTS:
