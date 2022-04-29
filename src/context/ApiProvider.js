@@ -11,6 +11,9 @@ import {
   getMealsIngredients,
   getMealsName,
   getMealsFirstLetter,
+  getDrinksIngredients,
+  getDrinksName,
+  getDrinksFirstLetter,
 } from '../services/getApi';
 
 const ApiProvider = ({ children }) => {
@@ -35,6 +38,21 @@ const ApiProvider = ({ children }) => {
   const getApiMealsByFirstLetter = async (query) => {
     const api = await getMealsFirstLetter(query);
     setMeals(api);
+  };
+
+  const getApiDrinksByIngredients = async (query) => {
+    const api = await getDrinksIngredients(query);
+    setDrinks(api);
+  };
+
+  const getApiDrinksByName = async (query) => {
+    const api = await getDrinksName(query);
+    setDrinks(api);
+  };
+
+  const getApiDrinksByFirstLetter = async (query) => {
+    const api = await getDrinksFirstLetter(query);
+    setDrinks(api);
   };
 
   const getApiCategories = async () => {
@@ -96,6 +114,9 @@ const ApiProvider = ({ children }) => {
     getApiMealsByIngredients,
     getApiMealsByName,
     getApiMealsByFirstLetter,
+    getApiDrinksByIngredients,
+    getApiDrinksByName,
+    getApiDrinksByFirstLetter,
   };
 
   return (

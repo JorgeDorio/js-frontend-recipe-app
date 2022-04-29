@@ -77,3 +77,10 @@ export const getDrinksIngredients = async (query) => {
   const { drinks } = await request.json();
   return drinks;
 };
+
+export const getDrinksName = async (query) => {
+  const url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${query}`;
+  const request = await fetch(url);
+  const { drinks } = await request.json();
+  return drinks;
+};
