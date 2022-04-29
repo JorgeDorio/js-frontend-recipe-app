@@ -3,16 +3,15 @@ import { useHistory, Link } from 'react-router-dom';
 import ApiContext from '../context/ApiContext';
 
 function Card() {
-  const { meals } = useContext(ApiContext);
+  const { meals, clickedCategory } = useContext(ApiContext);
   const history = useHistory();
 
   const RECIPES_LENGTH = 12;
-  console.log(meals);
   const validMeals = meals.length > RECIPES_LENGTH;
   let twelveMeals = '';
   if (!validMeals) {
     twelveMeals = meals;
-    if (meals.length === 1) {
+    if (meals.length === 1 && clickedCategory !== 'Goat') {
       history.push(`/foods/${meals[0].idMeal}`);
     }
   } else {

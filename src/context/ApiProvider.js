@@ -24,6 +24,7 @@ const ApiProvider = ({ children }) => {
   const [filtered, setFiltered] = useState(false);
   const [radioValue, setRadioValue] = useState('');
   const [searchInputValue, setSearchInputValue] = useState('');
+  const [clickedCategory, setClickedCategory] = useState('');
 
   const getApiMealsByIngredients = async (query) => {
     const api = await getMealsIngredients(query);
@@ -117,6 +118,8 @@ const ApiProvider = ({ children }) => {
     getApiDrinksByIngredients,
     getApiDrinksByName,
     getApiDrinksByFirstLetter,
+    clickedCategory,
+    setClickedCategory,
   };
 
   return (

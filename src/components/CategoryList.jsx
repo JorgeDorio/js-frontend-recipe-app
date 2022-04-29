@@ -1,16 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import ApiContext from '../context/ApiContext';
 
 function CategoryList() {
   const { categories,
-    getApiMealsByCategory, getApiMeals } = useContext(ApiContext);
+    getApiMealsByCategory, getApiMeals,
+    clickedCategory, setClickedCategory } = useContext(ApiContext);
   const { meals } = categories;
   const MEALS_LENGTH = 5;
   const fiveCategories = meals?.slice(0, MEALS_LENGTH);
   const categoriesList = fiveCategories?.map(
     (category) => category.strCategory,
   );
-  const [clickedCategory, setClickedCategory] = useState('');
+  // const [clickedCategory, setClickedCategory] = useState('');
 
   const handleCategoryClick = (target, category) => {
     setClickedCategory(target.value);
