@@ -5,6 +5,10 @@ import searchIcon from '../images/searchIcon.svg';
 import '../style/header.css';
 import ApiContext from '../context/ApiContext';
 
+const VALUE_INGREDIENTS = 'value-ingredients';
+const VALUE_NAME = 'value-name';
+const VALUE_FIRST_LETTER = 'value-first-letter';
+
 const Header = () => {
   const history = useHistory();
   // uso de useLocation visto em: https://v5.reactrouter.com/web/api/Hooks/uselocation
@@ -19,6 +23,9 @@ const Header = () => {
     getApiMealsByIngredients,
     getApiMealsByFirstLetter,
     getApiMealsByName,
+    getApiDrinksByIngredients,
+    getApiDrinksByFirstLetter,
+    getApiDrinksByName,
   } = useContext(ApiContext);
 
   const routes = {
@@ -28,20 +35,32 @@ const Header = () => {
   };
 
   const handleClick = (radio, inputValue) => {
-    switch (radio) {
-    case 'value-ingredients':
-      return getApiMealsByIngredients(inputValue);
-    case 'value-name':
-      return getApiMealsByName(inputValue);
-    case 'value-first-letter':
-      return getApiMealsByFirstLetter(inputValue);
-    default: break;
+    if (location.pathname === '/foods') {
+      switch (radio) {
+      case VALUE_INGREDIENTS:
+        return getApiMealsByIngredients(inputValue);
+      case VALUE_NAME:
+        return getApiMealsByName(inputValue);
+      case VALUE_FIRST_LETTER:
+        return getApiMealsByFirstLetter(inputValue);
+      default: break;
+      }
+    } else {
+      switch (radio) {
+      case VALUE_INGREDIENTS:
+        return getApiDrinksByIngredients(inputValue);
+      case VALUE_NAME:
+        return getApiDrinksByName(inputValue);
+      case VALUE_FIRST_LETTER:
+        return getApiDrinksByFirstLetter(inputValue);
+      default: break;
+      }
     }
   };
 
   // lógica do aviso global e do search Input;
   const handleInputChange = (value) => {
-    if (value.length > 1 && radioValue === 'value-first-letter') {
+    if (value.length > 1 && radioValue === VALUE_FIRST_LETTER) {
       global.alert('Your search must have only 1 (one) character');
       return;
     }

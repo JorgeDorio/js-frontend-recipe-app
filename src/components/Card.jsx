@@ -1,17 +1,22 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import ApiContext from '../context/ApiContext';
 
 function Card() {
   const { meals } = useContext(ApiContext);
+  const history = useHistory();
+
   const RECIPES_LENGTH = 12;
   console.log(meals);
   const validMeals = meals.length > RECIPES_LENGTH;
   let twelveMeals = '';
-  if (validMeals) {
-    twelveMeals = meals.slice(0, RECIPES_LENGTH);
-  } else {
+  if (!validMeals) {
     twelveMeals = meals;
+    if (meals.length === 1) {
+      history.push(`/foods/${meals[0].idMeal}`);
+    }
+  } else {
+    twelveMeals = meals.slice(0, RECIPES_LENGTH);
   }
 
   return (
