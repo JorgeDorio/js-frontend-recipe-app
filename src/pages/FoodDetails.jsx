@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router';
 import { getApiCallback } from '../helpers/index';
+import ApiContext from '../context/ApiContext';
 import { getMealsApiId } from '../services/getApi';
 
 function FoodDetails() {
@@ -12,6 +13,7 @@ function FoodDetails() {
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
   const arrayLength = 6;
+  const { history } = useHistory();
 
   useEffect(() => {
     getApiCallback(id, getMealsApiId, setMyMeal);

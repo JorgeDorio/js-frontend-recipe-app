@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router';
 import { getApiCallback } from '../helpers/index';
 import { getDrinksApiId } from '../services/getApi';
-// import ApiContext from '../context/ApiContext';
+import ApiContext from '../context/ApiContext';
 
 function DrinkDetails() {
   const { id } = useParams();
@@ -12,7 +12,8 @@ function DrinkDetails() {
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
   const history = useHistory();
-  // const { drinks } = useContext(ApiContext);
+  const { meals } = useContext(ApiContext);
+  const arrayLength = 6;
 
   useEffect(() => {
     getApiCallback(id, getDrinksApiId, setMyDrink);
@@ -77,8 +78,51 @@ function DrinkDetails() {
         {strInstructions}
       </p>
 
-      <div data-testid="0-recomendation-card">
+      <div>
         <h1>Recomendation</h1>
+        {
+          meals
+            .slice(0, arrayLength)
+            .map((each, i) => {
+              if (i > 1) {
+                return (
+                  <div
+                    key={ i }
+                    data-testid={ `${i}-recomendation-card` }
+                    hidden
+                  >
+                    <img
+                      src={ each.strMealThumb }
+                      width="100px"
+                      alt="recommendation"
+                    />
+                    <div
+                      data-testid={ `${i}-recomendation-title` }
+                    >
+                      { each.strMeal }
+                    </div>
+                  </div>
+                );
+              }
+              return (
+                <div
+                  key={ i }
+                  data-testid={ `${i}-recomendation-card` }
+                >
+                  <img
+                    src={ each.strMealThumb }
+                    width="100px"
+                    alt="recommendation"
+                  />
+                  <div
+                    data-testid={ `${i}-recomendation-title` }
+                  >
+                    { each.strMeal }
+                  </div>
+                </div>
+              );
+            })
+        }
       </div>
       <section>
         <button

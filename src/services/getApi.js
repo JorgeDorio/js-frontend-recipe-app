@@ -91,7 +91,7 @@ export const getMealsApiId = async (id) => {
   const request = await fetch(url);
   const { meals } = await request.json();
   return meals;
-
+};
 // random Foods;
 export const getRandomFood = async () => {
   const url = 'https://www.themealdb.com/api/json/v1/1/random.php';
