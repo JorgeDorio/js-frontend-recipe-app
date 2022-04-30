@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router';
-import { getApiFood } from '../helpers';
+import { getApiCallback } from '../helpers/index';
 import { getMealsApiId } from '../services/getApi';
+// import ApiContext from '../context/ApiContext';
 
 function FoodDetails() {
   const { id } = useParams();
   const [myMeal, setMyMeal] = useState([{}]);
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
+  const history = useHistory();
+  // const { meals } = useContext(ApiContext);
 
   useEffect(() => {
-    getApiFood(id, getMealsApiId, setMyMeal);
+    getApiCallback(id, getMealsApiId, setMyMeal);
   }, [id]);
 
   useEffect(() => {
@@ -89,6 +93,9 @@ function FoodDetails() {
         <button
           data-testid="start-recipe-btn"
           type="button"
+          className="fixed-bottom"
+          onClick={ () => history
+            .push(`/foods/${myMeal[0].idMeal}/in-progress`) }
         >
           Start Recipe
         </button>
