@@ -6,4 +6,9 @@ const verifyMeals = (meals, drinks, searchInputValue) => {
   }
 };
 
+export const getApiFood = async (id, apiCallback, setState) => {
+  const api = await apiCallback(id);
+  setState(api);
+};
+
 export default verifyMeals;

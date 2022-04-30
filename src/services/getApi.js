@@ -85,6 +85,13 @@ export const getDrinksName = async (query) => {
   return drinks;
 };
 
+export const getMealsApiId = async (id) => {
+  const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+  const request = await fetch(url);
+  const { meals } = await request.json();
+  console.log(url);
+  return meals;
+
 // random Foods;
 export const getRandomFood = async () => {
   const url = 'https://www.themealdb.com/api/json/v1/1/random.php';
