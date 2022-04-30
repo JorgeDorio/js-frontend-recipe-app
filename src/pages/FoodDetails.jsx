@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router';
 import { getApiFood } from '../helpers';
 import { getMealsApiId } from '../services/getApi';
+import ApiContext from '../context/ApiContext';
 
 function FoodDetails() {
+  const { drinks } = useContext(ApiContext);
   const { id } = useParams();
   const [myMeal, setMyMeal] = useState([{}]);
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
+  const arrayLength = 6;
 
   useEffect(() => {
     getApiFood(id, getMealsApiId, setMyMeal);
@@ -25,7 +28,6 @@ function FoodDetails() {
   }, [myMeal]);
 
   const { strMealThumb, strMeal, strCategory, strInstructions, strYoutube } = myMeal[0];
-  console.log(strYoutube);
 
   return (
     <>
@@ -72,19 +74,63 @@ function FoodDetails() {
       >
         {strInstructions}
       </p>
-      <a href={ strYoutube } target="video">
-        <iframe
-          data-testid="video"
-          allow="encrypted-media; accelerometer"
-          height="200"
-          width="300"
-          title={ strMeal }
-          name="video"
-        />
-      </a>
-      <div data-testid="0-recomendation-card">
+      <iframe
+        data-testid="video"
+        width="240"
+        height="135"
+        src={ strYoutube?.replace('watch?', 'embed/') }
+        title="Embedded youtube"
+      />
+      <div>
         <h1>Recomendation</h1>
       </div>
+      <section
+        max-height="300px"
+      >
+        {
+          drinks
+            .slice(0, arrayLength)
+            .map((each, i) => {
+              if (i > 1) {
+                return (
+                  <div
+                    key={ i }
+                    data-testid={ `${i}-recomendation-card` }
+                    hidden
+                  >
+                    <img
+                      src={ each.strDrinkThumb }
+                      width="100px"
+                      alt="recommendation"
+                    />
+                    <div
+                      data-testid={ `${i}-recomendation-title` }
+                    >
+                      { each.strDrink }
+                    </div>
+                  </div>
+                );
+              }
+              return (
+                <div
+                  key={ i }
+                  data-testid={ `${i}-recomendation-card` }
+                >
+                  <img
+                    src={ each.strDrinkThumb }
+                    width="100px"
+                    alt="recommendation"
+                  />
+                  <div
+                    data-testid={ `${i}-recomendation-title` }
+                  >
+                    { each.strDrink }
+                  </div>
+                </div>
+              );
+            })
+        }
+      </section>
       <section>
         <button
           data-testid="start-recipe-btn"
