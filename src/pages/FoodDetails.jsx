@@ -6,31 +6,43 @@ import { getApiCallback } from '../helpers/index';
 import ApiContext from '../context/ApiContext';
 import { getMealsApiId } from '../services/getApi';
 
+const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+
 function FoodDetails() {
+  // const [btnRender, setBtnRender] = useState(true);
   const { drinks } = useContext(ApiContext);
   const { id } = useParams();
   const [myMeal, setMyMeal] = useState([{}]);
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
   const arrayLength = 6;
-  const { history } = useHistory();
-
+  const history = useHistory();
   useEffect(() => {
     getApiCallback(id, getMealsApiId, setMyMeal);
   }, [id]);
 
   useEffect(() => {
     const keys = Object.entries(myMeal[0]);
-    const filterIngredients = keys.filter((i) => i[0].includes('strIngredient')
-    && i[1]).map((i) => i[1]);
-    const filterMeasure = keys.filter((i) => i[0].includes('strMeasure')
-    && i[1]).map((i) => i[1]);
+    const filterIngredients = keys
+      .filter((i) => i[0].includes('strIngredient') && i[1])
+      .map((i) => i[1]);
+    const filterMeasure = keys
+      .filter((i) => i[0].includes('strMeasure') && i[1])
+      .map((i) => i[1]);
     setIngredients(filterIngredients);
     setMeasure(filterMeasure);
   }, [myMeal]);
 
   const { strMealThumb, strMeal, strCategory, strInstructions, strYoutube } = myMeal[0];
-
+  const verifyIfDone = () => {
+    const test = doneRecipes
+      ? doneRecipes.filter((recipe) => recipe.id === id)
+      : [];
+    if (test.length) {
+      return false;
+    }
+    return true;
+  };
   return (
     <>
       <h1> Details </h1>
@@ -41,41 +53,20 @@ function FoodDetails() {
         src={ strMealThumb }
         alt={ strMeal }
       />
-      <h2
-        data-testid="recipe-title"
-      >
-        {strMeal}
-      </h2>
-      <button
-        data-testid="share-btn"
-        type="button"
-      >
+      <h2 data-testid="recipe-title">{strMeal}</h2>
+      <button data-testid="share-btn" type="button">
         Share
       </button>
-      <button
-        data-testid="favorite-btn"
-        type="button"
-      >
+      <button data-testid="favorite-btn" type="button">
         Favorite
       </button>
-      <h3
-        data-testid="recipe-category"
-      >
-        {strCategory}
-      </h3>
-      { ingredients.map((ingred, i) => (
-        <p
-          key={ i }
-          data-testid={ `${i}-ingredient-name-and-measure` }
-        >
+      <h3 data-testid="recipe-category">{strCategory}</h3>
+      {ingredients.map((ingred, i) => (
+        <p key={ i } data-testid={ `${i}-ingredient-name-and-measure` }>
           {`${ingred} - ${measure[i]}`}
         </p>
-      )) }
-      <p
-        data-testid="instructions"
-      >
-        {strInstructions}
-      </p>
+      ))}
+      <p data-testid="instructions">{strInstructions}</p>
       <iframe
         data-testid="video"
         width="240"
@@ -86,63 +77,49 @@ function FoodDetails() {
       <div>
         <h1>Recomendation</h1>
       </div>
-      <section
-        max-height="300px"
-      >
-        {
-          drinks
-            .slice(0, arrayLength)
-            .map((each, i) => {
-              if (i > 1) {
-                return (
-                  <div
-                    key={ i }
-                    data-testid={ `${i}-recomendation-card` }
-                    hidden
-                  >
-                    <img
-                      src={ each.strDrinkThumb }
-                      width="100px"
-                      alt="recommendation"
-                    />
-                    <div
-                      data-testid={ `${i}-recomendation-title` }
-                    >
-                      { each.strDrink }
-                    </div>
-                  </div>
-                );
-              }
-              return (
-                <div
-                  key={ i }
-                  data-testid={ `${i}-recomendation-card` }
-                >
-                  <img
-                    src={ each.strDrinkThumb }
-                    width="100px"
-                    alt="recommendation"
-                  />
-                  <div
-                    data-testid={ `${i}-recomendation-title` }
-                  >
-                    { each.strDrink }
-                  </div>
+      <section max-height="300px">
+        {drinks.slice(0, arrayLength).map((each, i) => {
+          if (i > 1) {
+            return (
+              <div key={ i } data-testid={ `${i}-recomendation-card` } hidden>
+                <img
+                  src={ each.strDrinkThumb }
+                  width="100px"
+                  alt="recommendation"
+                />
+                <div data-testid={ `${i}-recomendation-title` }>
+                  {each.strDrink}
                 </div>
-              );
-            })
-        }
+              </div>
+            );
+          }
+          return (
+            <div key={ i } data-testid={ `${i}-recomendation-card` }>
+              <img
+                src={ each.strDrinkThumb }
+                width="100px"
+                alt="recommendation"
+              />
+              <div data-testid={ `${i}-recomendation-title` }>
+                {each.strDrink}
+              </div>
+            </div>
+          );
+        })}
       </section>
       <section>
-        <button
-          data-testid="start-recipe-btn"
-          type="button"
-          className="fixed-bottom"
-          onClick={ () => history
-            .push(`/foods/${myMeal[0].idMeal}/in-progress`) }
-        >
-          Start Recipe
-        </button>
+        {verifyIfDone() && (
+          <button
+            data-testid="start-recipe-btn"
+            type="button"
+            className="fixed-bottom"
+            onClick={ () => {
+              history.push(`/foods/${myMeal[0].idMeal}/in-progress`);
+            } }
+          >
+            Start Recipe
+          </button>
+        )}
       </section>
     </>
   );
