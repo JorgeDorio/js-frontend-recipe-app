@@ -6,9 +6,24 @@ import { getApiCallback } from '../helpers/index';
 import { getDrinksApiId } from '../services/getApi';
 import ApiContext from '../context/ApiContext';
 
+// const mockInProgressRecipes = {
+//   cocktails: {
+//     178319: [],
+//   },
+// };
+// localStorage.setItem(
+//   'inProgressRecipes',
+//   JSON.stringify(mockInProgressRecipes),
+// );
+
+// const inProgressRecipes = JSON.parse(
+//   localStorage.getItem('inProgressRecipes'),
+// ).cocktails;
 const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
 
 function DrinkDetails() {
+  // const [inProgress, setInProgress] = useState(false);
+  const [isDone, setIsDone] = useState(false);
   const { id } = useParams();
   const [myDrink, setMyDrink] = useState([{}]);
   const [ingredients, setIngredients] = useState([]);
@@ -17,15 +32,14 @@ function DrinkDetails() {
   const { meals } = useContext(ApiContext);
   const arrayLength = 6;
 
-  const verifyIfDone = () => {
-    const test = doneRecipes
+  useEffect(() => {
+    const filterDone = doneRecipes
       ? doneRecipes.filter((recipe) => recipe.id === id)
       : [];
-    if (test.length) {
-      return false;
+    if (filterDone.length) {
+      setIsDone(true);
     }
-    return true;
-  };
+  }, []);
 
   useEffect(() => {
     getApiCallback(id, getDrinksApiId, setMyDrink);
@@ -96,7 +110,7 @@ function DrinkDetails() {
         })}
       </div>
       <section>
-        {verifyIfDone() && (
+        {!isDone && (
           <button
             data-testid="start-recipe-btn"
             type="button"

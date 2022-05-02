@@ -9,7 +9,7 @@ import { getMealsApiId } from '../services/getApi';
 const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
 
 function FoodDetails() {
-  // const [btnRender, setBtnRender] = useState(true);
+  const [isDone, setIsDone] = useState(false);
   const { drinks } = useContext(ApiContext);
   const { id } = useParams();
   const [myMeal, setMyMeal] = useState([{}]);
@@ -17,6 +17,17 @@ function FoodDetails() {
   const [measure, setMeasure] = useState([]);
   const arrayLength = 6;
   const history = useHistory();
+
+  useEffect(() => {
+    console.log('carregou');
+    const filterDone = doneRecipes
+      ? doneRecipes.filter((recipe) => recipe.id === id)
+      : [];
+    if (filterDone.length) {
+      setIsDone(true);
+    }
+  }, []);
+
   useEffect(() => {
     getApiCallback(id, getMealsApiId, setMyMeal);
   }, [id]);
@@ -34,15 +45,6 @@ function FoodDetails() {
   }, [myMeal]);
 
   const { strMealThumb, strMeal, strCategory, strInstructions, strYoutube } = myMeal[0];
-  const verifyIfDone = () => {
-    const test = doneRecipes
-      ? doneRecipes.filter((recipe) => recipe.id === id)
-      : [];
-    if (test.length) {
-      return false;
-    }
-    return true;
-  };
   return (
     <>
       <h1> Details </h1>
@@ -108,7 +110,7 @@ function FoodDetails() {
         })}
       </section>
       <section>
-        {verifyIfDone() && (
+        {!isDone && (
           <button
             data-testid="start-recipe-btn"
             type="button"
