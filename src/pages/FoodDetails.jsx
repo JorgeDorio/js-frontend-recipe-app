@@ -13,7 +13,7 @@ function FoodDetails() {
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
   const arrayLength = 6;
-  const { history } = useHistory();
+  const history = useHistory();
 
   useEffect(() => {
     getApiCallback(id, getMealsApiId, setMyMeal);
