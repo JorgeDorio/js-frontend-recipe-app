@@ -22,7 +22,6 @@ function FoodDetails() {
   const [measure, setMeasure] = useState([]);
   const arrayLength = 6;
   const history = useHistory();
-
   const toggleFill = () => {
     const {
       strMealThumb,
