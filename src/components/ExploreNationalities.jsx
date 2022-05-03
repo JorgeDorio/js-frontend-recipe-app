@@ -1,43 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardColumns, CardImg } from 'react-bootstrap';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  getMealsNationalities,
-  fetchMealsByNationalities,
 } from '../services/nationalitiesApi';
+import NationalitiesContext from '../context/NationalitiesContext';
+import ApiContext from '../context/ApiContext';
 
 function ExploreNationalities() {
-  const [nationalities, setNationalities] = useState([]);
-  const [selected, setSelected] = useState('American');
-  const [nationMeals, setNationMeals] = useState([]);
+  const { nationalities,
+    nationMeals,
+    setSelected,
+    selected,
+  } = useContext(NationalitiesContext);
+
+  const { meals } = useContext(ApiContext);
 
   const arrayLength = 12;
 
-  const handleNationalities = async () => {
-    const apiNations = await getMealsNationalities();
-    setNationalities(apiNations);
+  const handleChange = (target) => {
+    setSelected(target);
   };
-
-  const handleChange = (value) => {
-    setSelected(value);
-  };
-
-  useEffect(() => {
-    handleNationalities();
-    const handleFilteredNationalities = async () => {
-      const mealByNation = await fetchMealsByNationalities(selected);
-      setNationMeals(mealByNation);
-    };
-    handleFilteredNationalities();
-  }, [selected]);
-
-  // useEffect(() => {
-  //   const handleFilteredNationalities = async () => {
-  //     const mealByNation = await fetchMealsByNationalities(selected);
-  //     setNationMeals(mealByNation);
-  //   };
-  //   handleFilteredNationalities();
-  // }, [selected]);
 
   return (
     <>
@@ -47,7 +28,12 @@ function ExploreNationalities() {
         data-testid="explore-by-nationality-dropdown"
         onChange={ ({ target: { value } }) => handleChange(value) }
       >
-        <option value="All">All</option>
+        <option
+          value="All"
+          data-testid="All-option"
+        >
+          All
+        </option>
         { nationalities.map((nation, i) => (
           <option
             value={ nation.strArea }
@@ -59,7 +45,34 @@ function ExploreNationalities() {
         ))}
       </select>
 
-      { nationMeals
+      { selected === 'All'
+        ? meals
+          && meals
+            .slice(0, arrayLength)
+            .map((meal, index) => (
+              <Link
+                key={ index }
+                to={ `/foods/${meal.idMeal}` }
+              >
+                <div
+                  data-testid={ `${index}-recipe-card` }
+                  value={ meal.idMeal }
+                  className="mt-3"
+                  style={ { width: '12rem' } }
+                >
+                  <img
+                    src={ meal.strMealThumb }
+                    alt={ meal.idMeal }
+                    data-testid={ `${index}-card-img` }
+                    width="150ox"
+                  />
+                  <p data-testid={ `${index}-card-name` }>{meal.strMeal}</p>
+
+                </div>
+              </Link>
+            ))
+
+        : nationMeals
         && nationMeals
           .slice(0, arrayLength)
           .map((meal, index) => (
@@ -67,23 +80,21 @@ function ExploreNationalities() {
               key={ index }
               to={ `/foods/${meal.idMeal}` }
             >
-              <Card
+              <div
                 data-testid={ `${index}-recipe-card` }
                 value={ meal.idMeal }
                 className="mt-3"
                 style={ { width: '12rem' } }
               >
-                <CardImg
+                <img
                   src={ meal.strMealThumb }
                   alt={ meal.idMeal }
                   data-testid={ `${index}-card-img` }
+                  width="150ox"
                 />
-
-                <CardColumns />
-                {' '}
                 <p data-testid={ `${index}-card-name` }>{meal.strMeal}</p>
 
-              </Card>
+              </div>
             </Link>
           )) }
 
