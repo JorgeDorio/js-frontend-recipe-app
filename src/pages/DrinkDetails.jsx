@@ -50,8 +50,10 @@ function DrinkDetails() {
       setIsFilled(false);
       setIsFavorite(whiteHeartIcon);
     } else {
-      const array = [recipe];
-      localStorage.setItem('favoriteRecipes', JSON.stringify(array));
+      const localStorageArray = JSON.parse(localStorage.getItem('favoriteRecipes')) || '';
+      const currentArray = [...localStorageArray];
+      currentArray.push(recipe);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(currentArray));
       setIsFilled(true);
       setIsFavorite(blackHeartIcon);
     }
