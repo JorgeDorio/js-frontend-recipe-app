@@ -3,7 +3,7 @@ import React from 'react';
 function FoodsInProgress() {
   return (
     <>
-      FoodsInProgress
+      {console.log('carregou')}
     </>
   );
 }
