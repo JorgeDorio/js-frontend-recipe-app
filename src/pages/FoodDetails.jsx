@@ -6,9 +6,9 @@ import { getApiCallback } from '../helpers/index';
 import ApiContext from '../context/ApiContext';
 import { getMealsApiId } from '../services/getApi';
 
-const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
-
 function FoodDetails() {
+  const [showMsg, setShoeMsg] = useState(false);
+  const [inProgress, setInProgress] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const { drinks } = useContext(ApiContext);
   const { id } = useParams();
@@ -18,15 +18,32 @@ function FoodDetails() {
   const arrayLength = 6;
   const history = useHistory();
 
-  useEffect(() => {
-    console.log('carregou');
+  const verifyProgress = () => {
+    const inProgressRecipes = localStorage.getItem('inProgressRecipes') ? JSON.parse(
+      localStorage.getItem('inProgressRecipes'),
+    ).meals : [];
+    const isInProgress = Object.keys(inProgressRecipes).filter(
+      (recipe) => recipe === id,
+    );
+    if (isInProgress.length) {
+      setInProgress(true);
+    }
+  };
+
+  const verifyDone = () => {
+    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
     const filterDone = doneRecipes
       ? doneRecipes.filter((recipe) => recipe.id === id)
       : [];
-    if (filterDone.length) {
+    if (filterDone.length || inProgress) {
       setIsDone(true);
     }
-  }, []);
+  };
+
+  useEffect(() => {
+    verifyProgress();
+    verifyDone();
+  });
 
   useEffect(() => {
     getApiCallback(id, getMealsApiId, setMyMeal);
@@ -56,9 +73,17 @@ function FoodDetails() {
         alt={ strMeal }
       />
       <h2 data-testid="recipe-title">{strMeal}</h2>
-      <button data-testid="share-btn" type="button">
-        Share
+      <button
+        data-testid="share-btn"
+        type="button"
+        onClick={ () => {
+          setShoeMsg(true);
+          navigator.clipboard.writeText(window.location.href);
+        } }
+      >
+        <img src="" alt="share" />
       </button>
+      {showMsg && <p>Link copied!</p>}
       <button data-testid="favorite-btn" type="button">
         Favorite
       </button>
@@ -110,6 +135,15 @@ function FoodDetails() {
         })}
       </section>
       <section>
+        {inProgress && (
+          <button
+            type="button"
+            className="fixed-bottom"
+            data-testid="start-recipe-btn"
+          >
+            Continue Recipe
+          </button>
+        )}
         {!isDone && (
           <button
             data-testid="start-recipe-btn"

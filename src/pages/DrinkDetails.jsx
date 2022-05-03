@@ -6,23 +6,9 @@ import { getApiCallback } from '../helpers/index';
 import { getDrinksApiId } from '../services/getApi';
 import ApiContext from '../context/ApiContext';
 
-// const mockInProgressRecipes = {
-//   cocktails: {
-//     178319: [],
-//   },
-// };
-// localStorage.setItem(
-//   'inProgressRecipes',
-//   JSON.stringify(mockInProgressRecipes),
-// );
-
-// const inProgressRecipes = JSON.parse(
-//   localStorage.getItem('inProgressRecipes'),
-// ).cocktails;
-const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
-
 function DrinkDetails() {
-  // const [inProgress, setInProgress] = useState(false);
+  const [showMsg, setShoeMsg] = useState(false);
+  const [inProgress, setInProgress] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const { id } = useParams();
   const [myDrink, setMyDrink] = useState([{}]);
@@ -32,14 +18,32 @@ function DrinkDetails() {
   const { meals } = useContext(ApiContext);
   const arrayLength = 6;
 
-  useEffect(() => {
+  const verifyProgress = () => {
+    const inProgressRecipes = localStorage.getItem('inProgressRecipes')
+      ? JSON.parse(localStorage.getItem('inProgressRecipes')).cocktails
+      : [];
+    const isInProgress = Object.keys(inProgressRecipes).filter(
+      (recipe) => recipe === id,
+    );
+    if (isInProgress.length) {
+      setInProgress(true);
+    }
+  };
+
+  const verifyDone = () => {
+    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
     const filterDone = doneRecipes
       ? doneRecipes.filter((recipe) => recipe.id === id)
       : [];
-    if (filterDone.length) {
+    if (filterDone.length || inProgress) {
       setIsDone(true);
     }
-  }, []);
+  };
+
+  useEffect(() => {
+    verifyProgress();
+    verifyDone();
+  });
 
   useEffect(() => {
     getApiCallback(id, getDrinksApiId, setMyDrink);
@@ -58,7 +62,6 @@ function DrinkDetails() {
   }, [myDrink]);
 
   const { strDrinkThumb, strDrink, strInstructions, strAlcoholic } = myDrink[0];
-
   return (
     <>
       <h1> Details </h1>
@@ -70,9 +73,17 @@ function DrinkDetails() {
         alt={ strDrink }
       />
       <h2 data-testid="recipe-title">{strDrink}</h2>
-      <button data-testid="share-btn" type="button">
-        Share
+      <button
+        data-testid="share-btn"
+        type="button"
+        onClick={ () => {
+          setShoeMsg(true);
+          navigator.clipboard.writeText(window.location.href);
+        } }
+      >
+        <img src="" alt="share" />
       </button>
+      {showMsg && <p>Link copied!</p>}
       <button data-testid="favorite-btn" type="button">
         Favorite
       </button>
@@ -110,6 +121,15 @@ function DrinkDetails() {
         })}
       </div>
       <section>
+        {inProgress && (
+          <button
+            type="button"
+            className="fixed-bottom"
+            data-testid="start-recipe-btn"
+          >
+            Continue Recipe
+          </button>
+        )}
         {!isDone && (
           <button
             data-testid="start-recipe-btn"
