@@ -5,8 +5,13 @@ import { useParams } from 'react-router';
 import { getApiCallback } from '../helpers/index';
 import { getDrinksApiId } from '../services/getApi';
 import ApiContext from '../context/ApiContext';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import shareIcon from '../images/shareIcon.svg';
 
 function DrinkDetails() {
+  const [isFilled, setIsFilled] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(whiteHeartIcon);
   const [showMsg, setShoeMsg] = useState(false);
   const [inProgress, setInProgress] = useState(false);
   const [isDone, setIsDone] = useState(false);
@@ -29,6 +34,44 @@ function DrinkDetails() {
       setInProgress(true);
     }
   };
+
+  const toggleFill = () => {
+    const { strDrinkThumb, strDrink, strCategory, strArea, strAlcoholic } = myDrink[0];
+    console.log(myDrink[0]);
+    const recipe = {
+      id,
+      type: 'drink',
+      nationality: strArea,
+      category: strCategory,
+      alcoholicOrNot: strAlcoholic,
+      name: strDrink,
+      image: strDrinkThumb,
+    };
+    if (isFilled) {
+      setIsFilled(false);
+      setIsFavorite(whiteHeartIcon);
+    } else {
+      const array = [recipe];
+      localStorage.setItem('favoriteRecipes', JSON.stringify(array));
+      setIsFilled(true);
+      setIsFavorite(blackHeartIcon);
+    }
+  };
+
+  const verifyFavorite = () => {
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const getFavorite = favoriteRecipes
+      ? favoriteRecipes.filter((recipe) => recipe.id === id)
+      : [];
+    if (getFavorite.length) {
+      setIsFavorite(blackHeartIcon);
+      setIsFilled(true);
+    }
+  };
+
+  useEffect(() => {
+    verifyFavorite();
+  }, []);
 
   const verifyDone = () => {
     const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
@@ -81,11 +124,16 @@ function DrinkDetails() {
           navigator.clipboard.writeText(window.location.href);
         } }
       >
-        <img src="" alt="share" />
+        <img src={ shareIcon } alt="share" />
       </button>
       {showMsg && <p>Link copied!</p>}
-      <button data-testid="favorite-btn" type="button">
-        Favorite
+      <button
+        data-testid="favorite-btn"
+        src={ isFavorite }
+        type="button"
+        onClick={ toggleFill }
+      >
+        <img src={ isFavorite } alt="favorite" />
       </button>
       <h3 data-testid="recipe-category">{strAlcoholic}</h3>
       {ingredients.map((ingred, i) => (

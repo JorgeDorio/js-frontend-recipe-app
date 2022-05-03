@@ -5,8 +5,13 @@ import { useParams } from 'react-router';
 import { getApiCallback } from '../helpers/index';
 import ApiContext from '../context/ApiContext';
 import { getMealsApiId } from '../services/getApi';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import shareIcon from '../images/shareIcon.svg';
 
 function FoodDetails() {
+  const [isFilled, setIsFilled] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(whiteHeartIcon);
   const [showMsg, setShoeMsg] = useState(false);
   const [inProgress, setInProgress] = useState(false);
   const [isDone, setIsDone] = useState(false);
@@ -18,10 +23,52 @@ function FoodDetails() {
   const arrayLength = 6;
   const history = useHistory();
 
+  const toggleFill = () => {
+    const {
+      strMealThumb,
+      strMeal,
+      strCategory,
+      strArea,
+    } = myMeal[0];
+    const recipe = {
+      id,
+      type: 'food',
+      nationality: strArea,
+      category: strCategory,
+      alcoholicOrNot: '',
+      name: strMeal,
+      image: strMealThumb,
+    };
+    if (isFilled) {
+      setIsFilled(false);
+      setIsFavorite(whiteHeartIcon);
+    } else {
+      const array = [recipe];
+      localStorage.setItem('favoriteRecipes', JSON.stringify(array));
+      setIsFilled(true);
+      setIsFavorite(blackHeartIcon);
+    }
+  };
+
+  const verifyFavorite = () => {
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const getFavorite = favoriteRecipes
+      ? favoriteRecipes.filter((recipe) => recipe.id === id)
+      : [];
+    if (getFavorite.length) {
+      setIsFavorite(blackHeartIcon);
+      setIsFilled(true);
+    }
+  };
+
+  useEffect(() => {
+    verifyFavorite();
+  }, []);
+
   const verifyProgress = () => {
-    const inProgressRecipes = localStorage.getItem('inProgressRecipes') ? JSON.parse(
-      localStorage.getItem('inProgressRecipes'),
-    ).meals : [];
+    const inProgressRecipes = localStorage.getItem('inProgressRecipes')
+      ? JSON.parse(localStorage.getItem('inProgressRecipes')).meals
+      : [];
     const isInProgress = Object.keys(inProgressRecipes).filter(
       (recipe) => recipe === id,
     );
@@ -61,7 +108,14 @@ function FoodDetails() {
     setMeasure(filterMeasure);
   }, [myMeal]);
 
-  const { strMealThumb, strMeal, strCategory, strInstructions, strYoutube } = myMeal[0];
+  const {
+    strMealThumb,
+    strMeal,
+    strCategory,
+    strInstructions,
+    strYoutube,
+  } = myMeal[0];
+
   return (
     <>
       <h1> Details </h1>
@@ -81,11 +135,16 @@ function FoodDetails() {
           navigator.clipboard.writeText(window.location.href);
         } }
       >
-        <img src="" alt="share" />
+        <img src={ shareIcon } alt="share" />
       </button>
       {showMsg && <p>Link copied!</p>}
-      <button data-testid="favorite-btn" type="button">
-        Favorite
+      <button
+        data-testid="favorite-btn"
+        type="button"
+        onClick={ toggleFill }
+        src={ isFavorite }
+      >
+        <img src={ isFavorite } alt="favorite" />
       </button>
       <h3 data-testid="recipe-category">{strCategory}</h3>
       {ingredients.map((ingred, i) => (
