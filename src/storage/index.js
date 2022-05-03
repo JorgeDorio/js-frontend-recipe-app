@@ -11,3 +11,7 @@ export const setStorageEmail = (userEmail) => {
 export const getStorageEmail = () => (
   JSON.parse(localStorage.getItem('user'))
 );
+
+export const getFavoriteRecipe = () => (
+  JSON.parse(localStorage.getItem('favoriteRecipes'))
+);
