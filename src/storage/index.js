@@ -7,3 +7,7 @@ export const setStorageEmail = (userEmail) => {
   const user = { email: userEmail };
   localStorage.setItem('user', JSON.stringify(user));
 };
+
+export const getStorageEmail = () => (
+  JSON.parse(localStorage.getItem('user'))
+);
