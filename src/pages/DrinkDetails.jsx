@@ -36,12 +36,11 @@ function DrinkDetails() {
   };
 
   const toggleFill = () => {
-    const { strDrinkThumb, strDrink, strCategory, strArea, strAlcoholic } = myDrink[0];
-    console.log(myDrink[0]);
+    const { strDrinkThumb, strDrink, strCategory, strAlcoholic } = myDrink[0];
     const recipe = {
       id,
       type: 'drink',
-      nationality: strArea,
+      nationality: '',
       category: strCategory,
       alcoholicOrNot: strAlcoholic,
       name: strDrink,
