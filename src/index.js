@@ -6,14 +6,17 @@ import Provider from './context/Provider';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import ApiProvider from './context/ApiProvider';
+import NationalitiesProvider from './context/NationalitesProvider';
 
 ReactDOM.render(
   <BrowserRouter>
-    <ApiProvider>
-      <Provider>
-        <App />
-      </Provider>
-    </ApiProvider>
+    <NationalitiesProvider>
+      <ApiProvider>
+        <Provider>
+          <App />
+        </Provider>
+      </ApiProvider>
+    </NationalitiesProvider>
   </BrowserRouter>,
   document.getElementById('root'),
 );
