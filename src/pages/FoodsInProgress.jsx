@@ -17,6 +17,7 @@ function FoodsInProgress() {
       <h3 data-testid="recipe-category">{strCategory}</h3>
 
       <p data-testid="instructions">{strInstructions}</p> */}
+
       <IngredientProgress />
       <button
         type="button"

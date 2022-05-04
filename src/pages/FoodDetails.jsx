@@ -212,6 +212,8 @@ function FoodDetails() {
             type="button"
             className="fixed-bottom"
             data-testid="start-recipe-btn"
+            onClick={ () => history
+              .push(`/foods/${myMeal[0].idMeal}/in-progress`) }
           >
             Continue Recipe
           </button>
