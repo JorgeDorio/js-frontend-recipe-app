@@ -109,7 +109,7 @@ function FoodsInProgress() {
           type="button"
           onClick={ () => {
             setShoeMsg(true);
-            navigator.clipboard.writeText(`http://localhost:3000/foods/${each.id}`);
+            navigator.clipboard.writeText(`http://localhost:3000/foods/${id}`);
           } }
         >
           <img src={ shareIcon } alt="share" />
