@@ -23,18 +23,6 @@ function DrinkDetails() {
   const { meals } = useContext(ApiContext);
   const arrayLength = 6;
 
-  const verifyProgress = () => {
-    const inProgressRecipes = localStorage.getItem('inProgressRecipes')
-      ? JSON.parse(localStorage.getItem('inProgressRecipes')).cocktails
-      : [];
-    const isInProgress = Object.keys(inProgressRecipes).filter(
-      (recipe) => recipe === id,
-    );
-    if (isInProgress.length) {
-      setInProgress(true);
-    }
-  };
-
   const toggleFill = () => {
     const { strDrinkThumb, strDrink, strCategory, strAlcoholic } = myDrink[0];
     const recipe = {
@@ -74,6 +62,19 @@ function DrinkDetails() {
     verifyFavorite();
   }, []);
 
+  const verifyProgress = () => {
+    const inProgressRecipes = localStorage.getItem('inProgressRecipes')
+      ? JSON.parse(localStorage.getItem('inProgressRecipes')).cocktails
+      : [];
+    console.log(inProgressRecipes);
+    const isInProgress = Object.keys(inProgressRecipes)?.filter(
+      (recipe) => recipe === id,
+    );
+    if (isInProgress.length) {
+      setInProgress(true);
+    }
+  };
+
   const verifyDone = () => {
     const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
     const filterDone = doneRecipes
@@ -106,6 +107,19 @@ function DrinkDetails() {
   }, [myDrink]);
 
   const { strDrinkThumb, strDrink, strInstructions, strAlcoholic } = myDrink[0];
+
+  const sendRecipeToStorage = (recipeId, element) => {
+    const getStoredRecipe = JSON.parse(localStorage.getItem('inProgressRecipes')) || {};
+    const drinks = { [recipeId]: element };
+    const currentRecipe = {
+      ...getStoredRecipe,
+      cocktails: { ...getStoredRecipe.cocktails, ...drinks },
+    };
+
+    localStorage.setItem('inProgressRecipes', JSON.stringify(currentRecipe));
+    history.push(`/drinks/${myDrink[0].idDrink}/in-progress`);
+  };
+
   return (
     <>
       <h1> Details </h1>
@@ -184,7 +198,7 @@ function DrinkDetails() {
             data-testid="start-recipe-btn"
             type="button"
             className="fixed-bottom"
-            onClick={ () => history.push(`/drinks/${myDrink[0].idDrink}/in-progress`) }
+            onClick={ () => sendRecipeToStorage(id, ingredients) }
           >
             Start Recipe
           </button>
