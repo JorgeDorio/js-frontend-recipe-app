@@ -16,3 +16,14 @@ export const getStorageEmail = () => {
 export const getFavoriteRecipe = () => (
   JSON.parse(localStorage.getItem('favoriteRecipes'))
 );
+
+export const getProgress = () => {
+  const localStorageProgress = localStorage.getItem('progress');
+  console.log(localStorageProgress);
+  return JSON.parse(localStorageProgress) || [];
+};
+
+export const setProgress = (progress) => {
+  const currentProgress = progress;
+  localStorage.setItem('progress', JSON.stringify(currentProgress));
+};

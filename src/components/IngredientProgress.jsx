@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 import { getMealsApiId, getDrinksApiId } from '../services/getApi';
+import { getProgress, setProgress } from '../storage';
 import './Styles/inProgress.css';
 
 function IngredientProgress() {
   const [recipe, setRecipe] = useState([{}]);
   const [ingredients, setIngredients] = useState([]);
   const [measure, setMeasure] = useState([]);
-  const [checkboxListStatus, setCheckboxListStatus] = useState([]);
+  const [checkboxListStatus, setCheckboxListStatus] = useState(getProgress());
   const { id } = useParams();
   const [btnStatus, setBtnStatus] = useState(true);
   const location = useLocation();
@@ -17,7 +18,6 @@ function IngredientProgress() {
     if (location.pathname === `/foods/${id}/in-progress`) {
       const foodDetails = await getMealsApiId(id);
       setRecipe(foodDetails);
-      console.log('oi bonitao');
     } else {
       const drinkDetails = await getDrinksApiId(id);
       setRecipe(drinkDetails);
@@ -27,7 +27,6 @@ function IngredientProgress() {
   useEffect(() => {
     getFromApiID();
   }, []);
-  console.log(recipe);
 
   useEffect(() => {
     const keys = Object.entries(recipe[0]);
@@ -46,17 +45,19 @@ function IngredientProgress() {
     const array = [];
     arrayLength.forEach(() => array.push(false));
     setCheckboxListStatus([...array]);
+    setCheckboxListStatus(getProgress());
   }, [ingredients]);
 
-  const handleCheckbox = (index, target) => {
+  const handleCheckbox = (index) => {
     const checkArray = checkboxListStatus;
     checkArray[index] = !checkArray[index];
     setCheckboxListStatus([...checkArray]);
+    setProgress([...checkArray]);
     // localStorage.setItem('inProgressRecipes', JSON.stringify(checkArray));
-    if (checkboxListStatus.every((e) => e === true)) {
+    if (checkboxListStatus.length === ingredients.length
+      && checkboxListStatus.every((e) => e === true)) {
       setBtnStatus(false);
     } else {
-      console.log(target.parentNode);
       setBtnStatus(true);
     }
   };
@@ -77,8 +78,9 @@ function IngredientProgress() {
             <input
               id={ ingred }
               type="checkbox"
+              checked={ checkboxListStatus[i] }
               value={ `${ingred} - ${measure[i]}` }
-              onChange={ ({ currentTarget }) => handleCheckbox(i, currentTarget) }
+              onChange={ () => handleCheckbox(i) }
             />
             {`${ingred} - ${measure[i]}`}
           </label>
