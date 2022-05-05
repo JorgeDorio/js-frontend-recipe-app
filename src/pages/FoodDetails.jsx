@@ -117,6 +117,18 @@ function FoodDetails() {
     strYoutube,
   } = myMeal[0];
 
+  const sendRecipeToStorage = (recipeId, element) => {
+    const getStoredRecipe = JSON.parse(localStorage.getItem('inProgressRecipes')) || {};
+    const meals = { [recipeId]: element };
+    const currentRecipe = {
+      ...getStoredRecipe,
+      meals: { ...getStoredRecipe.meals, ...meals },
+    };
+
+    localStorage.setItem('inProgressRecipes', JSON.stringify(currentRecipe));
+    history.push(`/foods/${myMeal[0].idMeal}/in-progress`);
+  };
+
   return (
     <>
       <h1> Details </h1>
@@ -200,6 +212,8 @@ function FoodDetails() {
             type="button"
             className="fixed-bottom"
             data-testid="start-recipe-btn"
+            onClick={ () => history
+              .push(`/foods/${myMeal[0].idMeal}/in-progress`) }
           >
             Continue Recipe
           </button>
@@ -209,9 +223,7 @@ function FoodDetails() {
             data-testid="start-recipe-btn"
             type="button"
             className="fixed-bottom"
-            onClick={ () => {
-              history.push(`/foods/${myMeal[0].idMeal}/in-progress`);
-            } }
+            onClick={ () => sendRecipeToStorage(id, ingredients) }
           >
             Start Recipe
           </button>

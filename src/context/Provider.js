@@ -21,9 +21,25 @@ const Provider = ({ children }) => {
     }
   };
 
+  const progressState = {
+    cocktails: {},
+    meals: {},
+  };
+
+  const initialStorage = () => {
+    const isValid = localStorage.getItem('inProgressRecipes');
+    if (!isValid) {
+      localStorage.setItem('inProgressRecipes', JSON.stringify(progressState));
+    }
+  };
+
   useEffect(() => {
     validation();
   }, [email, password]);
+
+  useEffect(() => {
+    initialStorage();
+  }, []);
 
   const userData = {
     email,

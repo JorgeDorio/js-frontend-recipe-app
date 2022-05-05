@@ -54,7 +54,7 @@ function FavoriteRecipes() {
       >
         Drink
       </button>
-      { favoriteRecipe.map((each, i) => (
+      { favoriteRecipe && favoriteRecipe.map((each, i) => (
         each.type === 'food'
           ? (
             <div
