@@ -25,7 +25,7 @@ function FoodsInProgress() {
     const recObj = {
       id,
       type: 'food',
-      nationality: strArea,
+      nationality: strArea || '',
       category: strCategory,
       alcoholicOrNot: '',
       name: strMeal,
@@ -92,9 +92,6 @@ function FoodsInProgress() {
 
       <h3 data-testid="recipe-category">{strCategory}</h3>
 
-      <p data-testid="instructions">{strInstructions}</p>
-
-      <IngredientProgress />
       <div>
         <button
           data-testid="favorite-btn"
@@ -116,6 +113,10 @@ function FoodsInProgress() {
         </button>
         {showMsg && <p>Link copied!</p>}
       </div>
+
+      <p data-testid="instructions">{strInstructions}</p>
+
+      <IngredientProgress />
     </>
   );
 }

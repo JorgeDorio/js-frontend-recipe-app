@@ -189,6 +189,8 @@ function DrinkDetails() {
             type="button"
             className="fixed-bottom"
             data-testid="start-recipe-btn"
+            onClick={ () => history
+              .push(`/drinks/${myDrink[0].idDrink}/in-progress`) }
           >
             Continue Recipe
           </button>

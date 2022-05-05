@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { getMealsApiId } from '../services/getApi';
+import { useParams, useLocation, useHistory } from 'react-router-dom';
+import { getMealsApiId, getDrinksApiId } from '../services/getApi';
 import './Styles/inProgress.css';
 
 function IngredientProgress() {
@@ -10,15 +10,24 @@ function IngredientProgress() {
   const [checkboxListStatus, setCheckboxListStatus] = useState([]);
   const { id } = useParams();
   const [btnStatus, setBtnStatus] = useState(true);
+  const location = useLocation();
+  const history = useHistory();
 
   const getFromApiID = async () => {
-    const details = await getMealsApiId(id);
-    setRecipe(details);
+    if (location.pathname === `/foods/${id}/in-progress`) {
+      const foodDetails = await getMealsApiId(id);
+      setRecipe(foodDetails);
+      console.log('oi bonitao');
+    } else {
+      const drinkDetails = await getDrinksApiId(id);
+      setRecipe(drinkDetails);
+    }
   };
 
   useEffect(() => {
     getFromApiID();
   }, []);
+  console.log(recipe);
 
   useEffect(() => {
     const keys = Object.entries(recipe[0]);
@@ -43,6 +52,7 @@ function IngredientProgress() {
     const checkArray = checkboxListStatus;
     checkArray[index] = !checkArray[index];
     setCheckboxListStatus([...checkArray]);
+    // localStorage.setItem('inProgressRecipes', JSON.stringify(checkArray));
     if (checkboxListStatus.every((e) => e === true)) {
       setBtnStatus(false);
     } else {
@@ -56,6 +66,7 @@ function IngredientProgress() {
       {ingredients.map((ingred, i) => (
         <div
           key={ i }
+          data-testid={ `${i}-ingredient-step` }
         >
           <label
             htmlFor={ ingred }
@@ -64,7 +75,6 @@ function IngredientProgress() {
             }
           >
             <input
-              data-testid={ `${i}-ingredient-step` }
               id={ ingred }
               type="checkbox"
               value={ `${ingred} - ${measure[i]}` }
@@ -78,6 +88,7 @@ function IngredientProgress() {
         type="button"
         data-testid="finish-recipe-btn"
         disabled={ btnStatus }
+        onClick={ () => history.push('/done-recipes') }
       >
         Finish Recipe
       </button>
