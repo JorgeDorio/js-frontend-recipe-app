@@ -4,7 +4,7 @@ import HeaderNoSearch from '../components/HeaderNoSearch';
 import shareIcon from '../images/shareIcon.svg';
 
 function DoneRecipes() {
-  const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+  const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || [];
   console.log(doneRecipes);
   const [foods, setFoods] = useState();
   const [drinks, setDrinks] = useState();
@@ -20,7 +20,6 @@ function DoneRecipes() {
     sortingTypes();
   }, []);
 
-  console.log(foods);
   return (
     <>
       <HeaderNoSearch />
@@ -57,7 +56,7 @@ function DoneRecipes() {
                 width="40px"
                 data-testid={ `${index}-horizontal-image` }
               />
-              <p>{ recipe.name }</p>
+              <p data-testid={ `${index}-horizontal-name` }>{ recipe.name }</p>
             </Link>
             { recipe.type === 'food' && (
               <p
@@ -71,7 +70,7 @@ function DoneRecipes() {
               >
                 { `${recipe.alcoholicOrNot} - ${recipe.category}` }
               </p>)}
-            <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
+            <p>{recipe.name}</p>
             <p data-testid={ `${index}-horizontal-done-date` }>{recipe.doneDate}</p>
             <button
               data-testid={ `${index}-horizontal-share-btn` }
