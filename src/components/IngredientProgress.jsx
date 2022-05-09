@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useLocation, useHistory } from 'react-router-dom';
+import { useHistory, useParams, useLocation } from 'react-router-dom';
 import { getMealsApiId, getDrinksApiId } from '../services/getApi';
-import { getProgress, setProgress } from '../storage';
+import { getProgress, setDoneRecipe, setProgress } from '../storage';
 import './Styles/inProgress.css';
 
 function IngredientProgress() {
@@ -53,13 +53,43 @@ function IngredientProgress() {
     checkArray[index] = !checkArray[index];
     setCheckboxListStatus([...checkArray]);
     setProgress([...checkArray]);
-    // localStorage.setItem('inProgressRecipes', JSON.stringify(checkArray));
     if (checkboxListStatus.length === ingredients.length
       && checkboxListStatus.every((e) => e === true)) {
       setBtnStatus(false);
     } else {
       setBtnStatus(true);
     }
+  };
+
+  const date = new Date().toLocaleDateString();
+
+  const handleFinish = (currentRecipe) => {
+    const doneRecipe = !currentRecipe[0].strMeal
+      ? {
+        alcoholicOrNot: recipe[0].strAlcoholic,
+        category: recipe[0].strCategory,
+        doneDate: date,
+        id: recipe[0].idDrink,
+        image: recipe[0].strDrinkThumb,
+        name: recipe[0].srtDrink,
+        nationality: '',
+        tags: [recipe[0].strTags],
+        type: 'drink',
+      }
+      : {
+        alcoholicOrNot: '',
+        category: currentRecipe[0].strCategory,
+        doneDate: date,
+        id: currentRecipe[0].idMeal,
+        image: currentRecipe[0].strMealThumb,
+        name: currentRecipe[0].srtMeal,
+        nationality: currentRecipe[0].strArea,
+        tags: [currentRecipe[0].strTags],
+        type: 'food',
+      };
+    setDoneRecipe(doneRecipe);
+    localStorage.removeItem('progress');
+    history.push('/done-recipes');
   };
 
   return (
@@ -90,7 +120,7 @@ function IngredientProgress() {
         type="button"
         data-testid="finish-recipe-btn"
         disabled={ btnStatus }
-        onClick={ () => history.push('/done-recipes') }
+        onClick={ () => handleFinish(recipe) }
       >
         Finish Recipe
       </button>
