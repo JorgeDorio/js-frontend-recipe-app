@@ -72,6 +72,16 @@ function DoneRecipes() {
               </p>)}
             <p>{recipe.name}</p>
             <p data-testid={ `${index}-horizontal-done-date` }>{recipe.doneDate}</p>
+
+            {recipe.tags.map((tag) => (
+              <span
+                key={ tag }
+                data-testid={ `${index}-${tag}-horizontal-tag` }
+              >
+                {tag}
+              </span>
+            ))}
+
             <button
               data-testid={ `${index}-horizontal-share-btn` }
               type="button"
@@ -86,14 +96,6 @@ function DoneRecipes() {
               <img src={ shareIcon } alt="share" />
             </button>
             { shared && <p>Link copied!</p> }
-            {recipe.tags.map((tag) => (
-              <span
-                key={ tag }
-                data-testid={ `${index}-${tag}-horizontal-tag` }
-              >
-                {tag}
-              </span>
-            ))}
           </div>))}
       </section>
     </>
