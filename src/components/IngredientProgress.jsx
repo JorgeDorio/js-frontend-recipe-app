@@ -64,29 +64,19 @@ function IngredientProgress() {
   const date = new Date().toLocaleDateString();
 
   const handleFinish = (currentRecipe) => {
-    const doneRecipe = !currentRecipe[0].strMeal
-      ? {
-        alcoholicOrNot: recipe[0].strAlcoholic,
-        category: recipe[0].strCategory,
-        doneDate: date,
-        id: recipe[0].idDrink,
-        image: recipe[0].strDrinkThumb,
-        name: recipe[0].srtDrink,
-        nationality: '',
-        tags: [recipe[0].strTags],
-        type: 'drink',
-      }
-      : {
-        alcoholicOrNot: '',
-        category: currentRecipe[0].strCategory,
-        doneDate: date,
-        id: currentRecipe[0].idMeal,
-        image: currentRecipe[0].strMealThumb,
-        name: currentRecipe[0].srtMeal,
-        nationality: currentRecipe[0].strArea,
-        tags: [currentRecipe[0].strTags],
-        type: 'food',
-      };
+    const doneRecipe = {
+      alcoholicOrNot: !currentRecipe[0].strMeal ? recipe[0].strAlcoholic : '',
+      category: recipe[0].strCategory,
+      doneDate: date,
+      id: !currentRecipe[0].strMeal ? recipe[0].idDrink : recipe[0].idMeal,
+      image: !currentRecipe[0].strMeal
+        ? recipe[0].strDrinkThumb : recipe[0].strMealThumb,
+      name: !currentRecipe[0].strMeal ? recipe[0].srtDrink : recipe[0].srtMeal,
+      nationality: !currentRecipe[0].strMeal ? '' : recipe[0].strArea,
+      tags: !currentRecipe[0].strMeal
+        ? [recipe[0].strTags] : [currentRecipe[0].strTags],
+      type: !currentRecipe[0].strMeal ? 'drink' : 'food',
+    };
     setDoneRecipe(doneRecipe);
     localStorage.removeItem('progress');
     history.push('/done-recipes');
