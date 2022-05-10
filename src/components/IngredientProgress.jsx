@@ -71,7 +71,7 @@ function IngredientProgress() {
       id: !currentRecipe[0].strMeal ? recipe[0].idDrink : recipe[0].idMeal,
       image: !currentRecipe[0].strMeal
         ? recipe[0].strDrinkThumb : recipe[0].strMealThumb,
-      name: !currentRecipe[0].strMeal ? recipe[0].srtDrink : recipe[0].srtMeal,
+      name: !currentRecipe[0].strMeal ? recipe[0].strDrink : recipe[0].strMeal,
       nationality: !currentRecipe[0].strMeal ? '' : recipe[0].strArea,
       tags: !currentRecipe[0].strMeal
         ? [recipe[0].strTags] : [currentRecipe[0].strTags],
