@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import ApiContext from '../context/ApiContext';
+import '../style/CategoryList.css';
 
 function CategoryList() {
   const { categories,
@@ -25,10 +26,15 @@ function CategoryList() {
   };
 
   return (
-    <>
-      Categorias
-      <div>
+    <div className="categoryList-container">
+      {/* <h4>Categorias</h4> */}
+      <div
+        className="container-buttons"
+        // className="btn-group categoryList-buttons"
+        aria-label="Basic outlined example"
+      >
         <button
+          className="btn btn-outline-primary"
           type="button"
           data-testid="All-category-filter"
           onClick={ () => getApiMeals() }
@@ -38,6 +44,7 @@ function CategoryList() {
         {categoriesList
           && categoriesList.map((category) => (
             <button
+              className="btn btn-outline-primary"
               type="button"
               key={ category }
               value={ category }
@@ -50,7 +57,7 @@ function CategoryList() {
             </button>
           ))}
       </div>
-    </>
+    </div>
   );
 }
 

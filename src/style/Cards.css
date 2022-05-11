@@ -1,0 +1,35 @@
+a {
+  text-decoration: none;
+}
+
+.card {
+  border-radius: 20px;
+  box-shadow: 19px 18px 17px -18px rgba(30, 30, 60, 0.25);
+  margin: 2%;
+  margin-bottom: 10%;
+  width: 75%;
+}
+
+.card img {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.card p {
+  font-size: 1.2em;
+  text-decoration: none;
+}
+
+.col {
+  align-items: center;
+  justify-content: center;
+  left: 10%;
+}
+
+.card:hover {
+  background-color: #4449;
+  border: 1px solid transparent;
+  color: white;
+  cursor: pointer;
+  transition: var(--transition);
+}
