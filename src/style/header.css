@@ -1,9 +1,25 @@
 header {
   align-items: center;
-  background-color: #c9c9c9;
+  background-color: #ff8a00;
+
+  /* background-color: #c9c9c9; */
+  border-bottom: 1px solid grey;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  color: white;
   display: flex;
   justify-content: space-around;
-  padding: 10px;
+  width: 100%;
+}
+
+
+header img {
+  filter: invert(1);
+}
+
+.container-header {
+
+  /* border: 1px solid red; */
   width: 100%;
 }
 
@@ -20,9 +36,24 @@ form {
   justify-content: space-evenly;
 }
 
+
+header button {
+  background-color: transparent;
+  border: none;
+
+  /* border: 1px solid red; */
+}
+
 footer {
-  background-color: #c9c9c9;
+  background-color: #ff8a00;
+  border-bottom: 1px solid grey;
   display: flex;
   justify-content: space-around;
-  padding: 8px;
+  padding: 5px;
+  width: 100vw;
+}
+
+footer img {
+  filter: invert(1);
+  font-weight: 700;
 }

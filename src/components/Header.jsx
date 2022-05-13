@@ -76,7 +76,7 @@ const Header = () => {
   };
 
   return (
-    <div>
+    <div className="container-header">
       <header id="header">
         {/* IMG roles visto em: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img */}
         <img
