@@ -8,6 +8,7 @@ import { getMealsApiId } from '../services/getApi';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
+import './styles/FoodDetailsStyle.css';
 
 function FoodDetails() {
   const [isFilled, setIsFilled] = useState(false);
@@ -130,8 +131,8 @@ function FoodDetails() {
   };
 
   return (
-    <>
-      <h1> Details </h1>
+    <div className="details-container">
+
       <img
         height="200"
         width="300"
@@ -139,44 +140,51 @@ function FoodDetails() {
         src={ strMealThumb }
         alt={ strMeal }
       />
-      <h2 data-testid="recipe-title">{strMeal}</h2>
-      <button
-        data-testid="share-btn"
-        type="button"
-        onClick={ () => {
-          setShoeMsg(true);
-          navigator.clipboard.writeText(window.location.href);
-        } }
-      >
-        <img src={ shareIcon } alt="share" />
-      </button>
-      {showMsg && <p>Link copied!</p>}
-      <button
-        data-testid="favorite-btn"
-        type="button"
-        onClick={ toggleFill }
-        src={ isFavorite }
-      >
-        <img src={ isFavorite } alt="favorite" />
-      </button>
-      <h3 data-testid="recipe-category">{strCategory}</h3>
+      <div className="title-details">
+        <h2 data-testid="recipe-title">{strMeal}</h2>
+        <button
+          data-testid="share-btn"
+          type="button"
+          onClick={ () => {
+            setShoeMsg(true);
+            navigator.clipboard.writeText(window.location.href);
+          } }
+        >
+          <img src={ shareIcon } alt="share" />
+        </button>
+        {showMsg && <p>Link copied!</p>}
+        <button
+          data-testid="favorite-btn"
+          type="button"
+          onClick={ toggleFill }
+          src={ isFavorite }
+        >
+          <img src={ isFavorite } alt="favorite" />
+        </button>
+      </div>
+      <div className="title-details-2">
+        <h3 data-testid="recipe-category">{strCategory}</h3>
+      </div>
       {ingredients.map((ingred, i) => (
         <p key={ i } data-testid={ `${i}-ingredient-name-and-measure` }>
           {`${ingred} - ${measure[i]}`}
         </p>
       ))}
-      <p data-testid="instructions">{strInstructions}</p>
-      <iframe
-        data-testid="video"
-        width="240"
-        height="135"
-        src={ strYoutube?.replace('watch?', 'embed/') }
-        title="Embedded youtube"
-      />
+      <div className="instructions-content">
+        <h2>Instructions</h2>
+        <p data-testid="instructions">{strInstructions}</p>
+      </div>
+      <div className="video-content">
+        <iframe
+          data-testid="video"
+          src={ strYoutube?.replace('watch?', 'embed/') }
+          title="Embedded youtube"
+        />
+      </div>
       <div>
         <h1>Recomendation</h1>
       </div>
-      <section max-height="300px">
+      <section className="recomendation-content">
         {drinks.slice(0, arrayLength).map((each, i) => {
           if (i > 1) {
             return (
@@ -199,9 +207,9 @@ function FoodDetails() {
                 width="100px"
                 alt="recommendation"
               />
-              <div data-testid={ `${i}-recomendation-title` }>
+              <p data-testid={ `${i}-recomendation-title` }>
                 {each.strDrink}
-              </div>
+              </p>
             </div>
           );
         })}
@@ -210,7 +218,7 @@ function FoodDetails() {
         {inProgress && (
           <button
             type="button"
-            className="fixed-bottom"
+            className="fixed-bottom bottom-button"
             data-testid="start-recipe-btn"
             onClick={ () => history
               .push(`/foods/${myMeal[0].idMeal}/in-progress`) }
@@ -222,14 +230,14 @@ function FoodDetails() {
           <button
             data-testid="start-recipe-btn"
             type="button"
-            className="fixed-bottom"
+            className="fixed-bottom bottom-button"
             onClick={ () => sendRecipeToStorage(id, ingredients) }
           >
             Start Recipe
           </button>
         )}
       </section>
-    </>
+    </div>
   );
 }
 
