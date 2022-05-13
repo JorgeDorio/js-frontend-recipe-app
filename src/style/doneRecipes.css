@@ -1,0 +1,50 @@
+.btn-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.cardDone {
+  display: flex;
+  flex-direction: row;
+}
+
+.card button {
+  align-self: center;
+  background-color: #fb8a27;
+  border: none;
+  border-radius: 10px;
+  height: 50px;
+  margin-bottom: 5%;
+  width: 50px;
+}
+
+.cardDone img {
+  width: 100%;
+}
+
+.card {
+  margin: auto;
+  max-width: 300px;
+}
+
+.card a {
+  color: black;
+}
+
+.card p {
+  text-align: center;
+}
+
+.tags {
+  margin-bottom: 5%;
+  text-align: center;
+}
+
+.done-date {
+  font-weight: 300;
+}
+
+.done-type {
+  font-style: italic;
+  font-weight: 300;
+}
