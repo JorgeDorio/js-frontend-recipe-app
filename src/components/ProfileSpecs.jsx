@@ -12,27 +12,33 @@ function ProfileSpecs() {
   };
 
   return (
-    <div>
+    <div className="body-profile">
       <p
         data-testid="profile-email"
+        className="profile-email"
       >
         { email }
       </p>
+      <div className="btns">
+        <button
+          className="pages"
+          data-testid="profile-done-btn"
+          type="button"
+          onClick={ () => history.push('/done-recipes') }
+        >
+          Done Recipes
+        </button>
+        <button
+          className="pages"
+          data-testid="profile-favorite-btn"
+          type="button"
+          onClick={ () => history.push('/favorite-recipes') }
+        >
+          Favorite Recipes
+        </button>
+      </div>
       <button
-        data-testid="profile-done-btn"
-        type="button"
-        onClick={ () => history.push('/done-recipes') }
-      >
-        Done Recipes
-      </button>
-      <button
-        data-testid="profile-favorite-btn"
-        type="button"
-        onClick={ () => history.push('/favorite-recipes') }
-      >
-        Favorite Recipes
-      </button>
-      <button
+        className="logout-btn"
         data-testid="profile-logout-btn"
         type="button"
         onClick={ () => handleLogout() }
