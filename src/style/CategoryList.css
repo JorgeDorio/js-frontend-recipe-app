@@ -57,3 +57,16 @@
   justify-content: center;
   margin-top: 25px;
 }
+
+.card-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column nowrap;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: spac;
+}
