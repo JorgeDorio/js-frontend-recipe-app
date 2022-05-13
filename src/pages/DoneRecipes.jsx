@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import HeaderNoSearch from '../components/HeaderNoSearch';
 import shareIcon from '../images/shareIcon.svg';
+import '../style/doneRecipes.css';
 
 function DoneRecipes() {
   const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || [];
@@ -24,8 +25,9 @@ function DoneRecipes() {
   return (
     <>
       <HeaderNoSearch />
-      <section>
+      <section className="categoryList-container container-buttons btn-container">
         <button
+          className="btn btn-outline-primary"
           type="button"
           onClick={ () => setRendering(doneRecipes) }
           data-testid="filter-by-all-btn"
@@ -33,6 +35,7 @@ function DoneRecipes() {
           All
         </button>
         <button
+          className="btn btn-outline-primary"
           type="button"
           onClick={ () => setRendering(foods) }
           data-testid="filter-by-food-btn"
@@ -40,6 +43,7 @@ function DoneRecipes() {
           Food
         </button>
         <button
+          className="btn btn-outline-primary"
           type="button"
           onClick={ () => setRendering(drinks) }
           data-testid="filter-by-drink-btn"
@@ -51,17 +55,23 @@ function DoneRecipes() {
         {rendering.map((recipe, index) => (
           <Card
             key={ recipe.id }
-            className="mt-3"
+            className="mt-3 card"
             style={ { width: '21rem' } }
           >
             <Link to={ `/${recipe.type}s/${recipe.id}` }>
               <img
+                className="card-img-top"
                 src={ recipe.image }
                 alt={ recipe.name }
                 width="120px"
                 data-testid={ `${index}-horizontal-image` }
               />
-              <p data-testid={ `${index}-horizontal-name` }>{ recipe.name }</p>
+              <p
+                data-testid={ `${index}-horizontal-name` }
+                className="card-title"
+              >
+                { recipe.name }
+              </p>
             </Link>
 
             <button
@@ -78,35 +88,37 @@ function DoneRecipes() {
               <img src={ shareIcon } alt="share" />
             </button>
             { shared && <p>Link copied!</p> }
-
-            { recipe.type === 'food' && (
-              <p
-                data-testid={ `${index}-horizontal-top-text` }
-              >
-                { `${recipe.nationality} - ${recipe.category}` }
-              </p>)}
-            { recipe.type === 'drink' && (
-              <p
-                data-testid={ `${index}-horizontal-top-text` }
-              >
-                { `${recipe.alcoholicOrNot} - ${recipe.category}` }
-              </p>)}
-
-            <p>{recipe.name}</p>
-            <p data-testid={ `${index}-horizontal-done-date` }>
+            <div>
+              { recipe.type === 'food' && (
+                <p
+                  data-testid={ `${index}-horizontal-top-text` }
+                  className="done-type"
+                >
+                  { `${recipe.nationality} - ${recipe.category}` }
+                </p>)}
+              { recipe.type === 'drink' && (
+                <p
+                  data-testid={ `${index}-horizontal-top-text` }
+                  className="done-type"
+                >
+                  { `${recipe.alcoholicOrNot} - ${recipe.category}` }
+                </p>)}
+            </div>
+            <p data-testid={ `${index}-horizontal-done-date` } className="done-date">
               Done in:
               {' '}
               {recipe.doneDate}
             </p>
-
-            {recipe.tags.map((tag) => (
-              <span
-                key={ tag }
-                data-testid={ `${index}-${tag}-horizontal-tag` }
-              >
-                {tag}
-              </span>
-            ))}
+            <div className="tags">
+              {recipe.tags.map((tag) => (
+                <span
+                  key={ tag }
+                  data-testid={ `${index}-${tag}-horizontal-tag` }
+                >
+                  {`#${tag} `}
+                </span>
+              ))}
+            </div>
 
           </Card>))}
       </section>

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import ApiContext from '../context/ApiContext';
+import '../style/Cards.css';
 
 function Card() {
   const { meals, clickedCategory } = useContext(ApiContext);
@@ -18,24 +19,30 @@ function Card() {
   }
 
   return (
-    <div>
+    <div className="col">
       {twelveMeals && twelveMeals.map((meal, i) => (
         <Link
           to={ `/foods/${meal.idMeal}` }
           key={ meal.idMeal }
           data-testid={ `${i}-recipe-card` }
         >
-          <img
-            width="50px"
-            src={ meal.strMealThumb }
-            alt={ meal.strMeal }
-            data-testid={ `${i}-card-img` }
-          />
-          <p
-            data-testid={ `${i}-card-name` }
-          >
-            { meal.strMeal }
-          </p>
+          <div className="card">
+            <img
+              className="card-img-top"
+              width="50px"
+              src={ meal.strMealThumb }
+              alt={ meal.strMeal }
+              data-testid={ `${i}-card-img` }
+            />
+            <div className="card-body">
+              <p
+                className="card-title"
+                data-testid={ `${i}-card-name` }
+              >
+                { meal.strMeal }
+              </p>
+            </div>
+          </div>
         </Link>
 
       ))}

@@ -5,3 +5,74 @@
 .notChecked {
   text-decoration: none;
 }
+
+.container-card-progress {
+  margin: auto;
+  margin-bottom: 10%;
+  margin-top: 10%;
+}
+
+.container-card-progress h2, h3 {
+  text-align: center;
+}
+
+.container-share-and-like {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5%;
+}
+
+.share-button-progress {
+  background-color: transparent;
+  border: none;
+  text-decoration: none;
+}
+
+.container-instruction-progress {
+  margin: auto;
+  margin-left: 10%;
+  margin-right: 10%;
+
+  /* text-align: center; */
+  text-align: justify;
+}
+
+.container-button-finish-recipe {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 5%;
+}
+
+.btn-finish-recipe {
+  background-color: #0fa36b;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 700;
+  margin: auto;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.container-ingredient-step {
+  align-items: center;
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 10%;
+}
+
+label {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.container-ingredient-step input {
+  margin-right: 15px;
+}
