@@ -4,6 +4,7 @@ import HeaderNoSearch from '../components/HeaderNoSearch';
 import { getFavoriteRecipe } from '../storage';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import '../style/CategoryList.css';
 
 function FavoriteRecipes() {
   const [favoriteRecipe, setFavoriteRecipe] = useState(getFavoriteRecipe());
@@ -34,168 +35,176 @@ function FavoriteRecipes() {
     <>
       <HeaderNoSearch />
       <div
-        height="500px"
-        className="border border-primary"
+        className="categoryList-container"
       >
-        className
+        <div
+          className="container-buttons"
+          aria-label="Basic outlined example"
+        >
+
+          <button
+            className="btn btn-outline-primary"
+            type="button"
+            data-testid="filter-by-all-btn"
+            onClick={ () => handleAll() }
+          >
+            All
+          </button>
+          <button
+            className="btn btn-outline-primary"
+            type="button"
+            data-testid="filter-by-food-btn"
+            onClick={ () => handleFood() }
+          >
+            Food
+          </button>
+          <button
+            className="btn btn-outline-primary"
+            type="button"
+            data-testid="filter-by-drink-btn"
+            onClick={ () => handleDrink() }
+          >
+            Drink
+          </button>
+        </div>
       </div>
       <div
-        width="30px"
-        height="500px"
-        className="d-flex
-        justify-content-around
-        d-flex align-items-center
-        mb-0
-        border border-primary
-        "
+        className="card-container"
       >
-        <button
-          className="btn btn-success"
-          type="button"
-          data-testid="filter-by-all-btn"
-          onClick={ () => handleAll() }
-        >
-          All
-        </button>
-        <button
-          className="btn btn-success"
-          type="button"
-          data-testid="filter-by-food-btn"
-          onClick={ () => handleFood() }
-        >
-          Food
-        </button>
-        <button
-          className="btn btn-success"
-          type="button"
-          data-testid="filter-by-drink-btn"
-          onClick={ () => handleDrink() }
-        >
-          Drink
-        </button>
-      </div>
-      { favoriteRecipe && favoriteRecipe.map((each, i) => (
-        each.type === 'food'
-          ? (
-            <div
-              className="card"
-              key={ i }
-            >
-              <Link
-                to={ `/foods/${each.id}` }
-                className="card-body"
-              >
-                <img
-                  data-testid={ `${i}-horizontal-image` }
-                  alt={ each.name }
-                  src={ each.image }
-                  width="150px"
-                  className="card-img-top"
-                />
-                <p
-                  data-testid={ `${i}-horizontal-top-text` }
-                >
-                  { each.nationality }
-                  {' '}
-                  -
-                  {' '}
-                  { each.category }
-                </p>
-                <h5
-                  data-testid={ `${i}-horizontal-name` }
-                >
-                  { each.name }
-                </h5>
-              </Link>
-              <button
-                data-testid={ `${i}-horizontal-share-btn` }
-                type="button"
-                src={ shareIcon }
-                onClick={ () => {
-                  setShoeMsg(true);
-                  navigator.clipboard.writeText(`http://localhost:3000/foods/${each.id}`);
-                } }
-              >
-                <img src={ shareIcon } alt="share" />
-              </button>
-              {showMsg && <p>Link copied!</p>}
-              <button
-                data-testid={ `${i}-horizontal-favorite-btn` }
-                type="button"
-                src={ blackHeartIcon }
-                onClick={ () => handleUnfavorite(each.id) }
-              >
-                <img src={ blackHeartIcon } alt="share" />
-              </button>
 
-            </div>
-          )
-          : (
-            <div
-              className="card"
-              width="150px"
-              key={ i }
-            >
-              <Link
-                to={ `/drinks/${each.id}` }
+        { favoriteRecipe && favoriteRecipe.map((each, i) => (
+          each.type === 'food'
+            ? (
+              <div
+                className="card"
+                key={ i }
               >
-
-                <img
-                  className="card-img-top img-thumbnail"
-                  width="150px"
-                  data-testid={ `${i}-horizontal-image` }
-                  alt={ each.name }
-                  src={ each.image }
-                />
-                <div
-                  className="card-body"
+                <Link
+                  to={ `/foods/${each.id}` }
                 >
-                  <p
-                    className="d-flex
-                  justify-content-center
-                  mb-0
-                  "
-                    data-testid={ `${i}-horizontal-top-text` }
-                  >
-                    { each.alcoholicOrNot }
-                  </p>
+                  <img
+                    data-testid={ `${i}-horizontal-image` }
+                    alt={ each.name }
+                    src={ each.image }
+                    width="150px"
+                    className="card-img-top img-thumbnail"
+                  />
                   <h5
-                    className="d-flex
-                  justify-content-center
-                  mb-0
-                  align-items-space-between
-                  "
                     data-testid={ `${i}-horizontal-name` }
+                    className="d-flex
+                    justify-content-center
+                    mb-0
+                    align-items-space-between
+                    "
                   >
                     { each.name }
                   </h5>
+                  <p
+                    data-testid={ `${i}-horizontal-top-text` }
+                  >
+                    { each.nationality }
+                    {' '}
+                    -
+                    {' '}
+                    { each.category }
+                  </p>
+                </Link>
+                <div
+                  className="button-wrapper"
+                >
+                  <button
+                    data-testid={ `${i}-horizontal-share-btn` }
+                    type="button"
+                    src={ shareIcon }
+                    onClick={ () => {
+                      setShoeMsg(true);
+                      navigator.clipboard.writeText(`http://localhost:3000/foods/${each.id}`);
+                    } }
+                  >
+                    <img src={ shareIcon } alt="share" />
+                  </button>
+                  {showMsg && <p>Link copied!</p>}
+                  <button
+                    data-testid={ `${i}-horizontal-favorite-btn` }
+                    type="button"
+                    src={ blackHeartIcon }
+                    onClick={ () => handleUnfavorite(each.id) }
+                  >
+                    <img src={ blackHeartIcon } alt="share" />
+                  </button>
                 </div>
-              </Link>
-              <button
-                className="btn btn-light"
-                data-testid={ `${i}-horizontal-share-btn` }
-                type="button"
-                src={ shareIcon }
-                onClick={ () => {
-                  setShoeMsg(true);
-                  navigator.clipboard.writeText(`http://localhost:3000/drinks/${each.id}`);
-                } }
+              </div>
+            )
+            : (
+              <div
+                className="card"
+                key={ i }
               >
-                <img src={ shareIcon } alt="share" />
-              </button>
-              {showMsg && <p>Link copied!</p>}
-              <button
-                className="btn btn-light"
-                data-testid={ `${i}-horizontal-favorite-btn` }
-                type="button"
-                src={ blackHeartIcon }
-                onClick={ () => handleUnfavorite(each.id) }
-              >
-                <img src={ blackHeartIcon } alt="share" />
-              </button>
-            </div>
-          )
-      )) }
+                <Link
+                  to={ `/drinks/${each.id}` }
+                >
+
+                  <img
+                    className="card-img-top img-thumbnail"
+                    width="150px"
+                    data-testid={ `${i}-horizontal-image` }
+                    alt={ each.name }
+                    src={ each.image }
+                  />
+                  <div
+                    className="card-body"
+                  >
+                    <h5
+                      className="d-flex
+                      justify-content-center
+                      mb-0
+                      align-items-space-between
+                      "
+                      data-testid={ `${i}-horizontal-name` }
+                    >
+                      { each.name }
+                    </h5>
+                    <p
+                      className="d-flex
+                      justify-content-center
+                      mb-0"
+                      data-testid={ `${i}-horizontal-top-text` }
+                    >
+                      { each.alcoholicOrNot }
+                    </p>
+                  </div>
+                </Link>
+                <div
+                  className="button-wrapper"
+                >
+
+                  <button
+                    className="btn btn-light"
+                    data-testid={ `${i}-horizontal-share-btn` }
+                    type="button"
+                    src={ shareIcon }
+                    onClick={ () => {
+                      setShoeMsg(true);
+                      navigator.clipboard.writeText(`http://localhost:3000/drinks/${each.id}`);
+                    } }
+                  >
+                    <img src={ shareIcon } alt="share" />
+                  </button>
+                  {showMsg && <p>Link copied!</p>}
+                  <button
+                    className="btn btn-light"
+                    data-testid={ `${i}-horizontal-favorite-btn` }
+                    type="button"
+                    src={ blackHeartIcon }
+                    onClick={ () => handleUnfavorite(each.id) }
+                  >
+                    <img src={ blackHeartIcon } alt="share" />
+                  </button>
+                </div>
+              </div>
+            )
+        )) }
+      </div>
     </>
   );
 }
