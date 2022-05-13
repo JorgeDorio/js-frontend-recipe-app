@@ -55,7 +55,7 @@ function DoneRecipes() {
         {rendering.map((recipe, index) => (
           <Card
             key={ recipe.id }
-            className="mt-3 card"
+            className="mt-3 card done-card"
             style={ { width: '21rem' } }
           >
             <Link to={ `/${recipe.type}s/${recipe.id}` }>
