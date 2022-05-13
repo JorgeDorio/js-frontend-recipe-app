@@ -1,18 +1,17 @@
-.body-profile{
+.body-profile {
   background-color: #ebebeb;
   text-align: center;
 }
 
-.body-profile p{
+.body-profile p {
   font-weight: 500;
   margin-top: 40px;
 }
 
-
 .pages{
   background-color: #fb8a27;
-  border-radius: 10px;
   border: none;
+  border-radius: 10px;
   color: white;
   font-weight: 700;
   margin: 2%;
@@ -22,8 +21,8 @@
 
 .logout-btn{
   background-color: #fb2e27;
-  border-radius: 10px;
   border: none;
+  border-radius: 10px;
   color: white;
   font-weight: 700;
   margin-top: 2%;
