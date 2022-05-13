@@ -8,6 +8,7 @@ import ApiContext from '../context/ApiContext';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
+import './styles/FoodDetailsStyle.css';
 
 function DrinkDetails() {
   const [isFilled, setIsFilled] = useState(false);
@@ -121,8 +122,7 @@ function DrinkDetails() {
   };
 
   return (
-    <>
-      <h1> Details </h1>
+    <div className="details-container">
       <img
         height="200"
         width="300"
@@ -130,64 +130,78 @@ function DrinkDetails() {
         src={ strDrinkThumb }
         alt={ strDrink }
       />
-      <h2 data-testid="recipe-title">{strDrink}</h2>
-      <button
-        data-testid="share-btn"
-        type="button"
-        onClick={ () => {
-          setShoeMsg(true);
-          navigator.clipboard.writeText(window.location.href);
-        } }
+      <div className="title-details">
+        <h2 data-testid="recipe-title">{strDrink}</h2>
+        <button
+          data-testid="share-btn"
+          type="button"
+          onClick={ () => {
+            setShoeMsg(true);
+            navigator.clipboard.writeText(window.location.href);
+          } }
+        >
+          <img src={ shareIcon } alt="share" />
+        </button>
+        {showMsg && <p>Link copied!</p>}
+        <button
+          data-testid="favorite-btn"
+          src={ isFavorite }
+          type="button"
+          onClick={ toggleFill }
+        >
+          <img src={ isFavorite } alt="favorite" />
+        </button>
+      </div>
+      <div
+        className="title-details-2"
       >
-        <img src={ shareIcon } alt="share" />
-      </button>
-      {showMsg && <p>Link copied!</p>}
-      <button
-        data-testid="favorite-btn"
-        src={ isFavorite }
-        type="button"
-        onClick={ toggleFill }
-      >
-        <img src={ isFavorite } alt="favorite" />
-      </button>
-      <h3 data-testid="recipe-category">{strAlcoholic}</h3>
+        <h3 data-testid="recipe-category">{strAlcoholic}</h3>
+      </div>
       {ingredients.map((ingred, i) => (
         <p key={ i } data-testid={ `${i}-ingredient-name-and-measure` }>
           {`${ingred} - ${measure[i]}`}
         </p>
       ))}
-      <p data-testid="instructions">{strInstructions}</p>
+      <div
+        className="instructions-content"
+      >
+        <h2>Instructions</h2>
+        <p data-testid="instructions">{strInstructions}</p>
+      </div>
 
       <div>
         <h1>Recomendation</h1>
-        {meals.slice(0, arrayLength).map((each, i) => {
-          if (i > 1) {
-            return (
-              <div key={ i } data-testid={ `${i}-recomendation-card` } hidden>
-                <img
-                  src={ each.strMealThumb }
-                  width="100px"
-                  alt="recommendation"
-                />
-                <div data-testid={ `${i}-recomendation-title` }>
-                  {each.strMeal}
+        <section className="recomendation-content">
+
+          {meals.slice(0, arrayLength).map((each, i) => {
+            if (i > 1) {
+              return (
+                <div key={ i } data-testid={ `${i}-recomendation-card` } hidden>
+                  <img
+                    src={ each.strMealThumb }
+                    width="100px"
+                    alt="recommendation"
+                  />
+                  <div data-testid={ `${i}-recomendation-title` }>
+                    {each.strMeal}
+                  </div>
                 </div>
+              );
+            }
+            return (
+              <div key={ i } data-testid={ `${i}-recomendation-card` }>
+                <img src={ each.strMealThumb } width="100px" alt="recommendation" />
+                <div data-testid={ `${i}-recomendation-title` }>{each.strMeal}</div>
               </div>
             );
-          }
-          return (
-            <div key={ i } data-testid={ `${i}-recomendation-card` }>
-              <img src={ each.strMealThumb } width="100px" alt="recommendation" />
-              <div data-testid={ `${i}-recomendation-title` }>{each.strMeal}</div>
-            </div>
-          );
-        })}
+          })}
+        </section>
       </div>
       <section>
         {inProgress && (
           <button
             type="button"
-            className="fixed-bottom"
+            className="fixed-bottom bottom-button"
             data-testid="start-recipe-btn"
             onClick={ () => history
               .push(`/drinks/${myDrink[0].idDrink}/in-progress`) }
@@ -199,14 +213,14 @@ function DrinkDetails() {
           <button
             data-testid="start-recipe-btn"
             type="button"
-            className="fixed-bottom"
+            className="fixed-bottom bottom-button"
             onClick={ () => sendRecipeToStorage(id, ingredients) }
           >
             Start Recipe
           </button>
         )}
       </section>
-    </>
+    </div>
   );
 }
 

@@ -33,41 +33,64 @@ function FavoriteRecipes() {
   return (
     <>
       <HeaderNoSearch />
-      <button
-        type="button"
-        data-testid="filter-by-all-btn"
-        onClick={ () => handleAll() }
+      <div
+        height="500px"
+        className="border border-primary"
       >
-        All
-      </button>
-      <button
-        type="button"
-        data-testid="filter-by-food-btn"
-        onClick={ () => handleFood() }
+        className
+      </div>
+      <div
+        width="30px"
+        height="500px"
+        className="d-flex
+        justify-content-around
+        d-flex align-items-center
+        mb-0
+        border border-primary
+        "
       >
-        Food
-      </button>
-      <button
-        type="button"
-        data-testid="filter-by-drink-btn"
-        onClick={ () => handleDrink() }
-      >
-        Drink
-      </button>
+        <button
+          className="btn btn-success"
+          type="button"
+          data-testid="filter-by-all-btn"
+          onClick={ () => handleAll() }
+        >
+          All
+        </button>
+        <button
+          className="btn btn-success"
+          type="button"
+          data-testid="filter-by-food-btn"
+          onClick={ () => handleFood() }
+        >
+          Food
+        </button>
+        <button
+          className="btn btn-success"
+          type="button"
+          data-testid="filter-by-drink-btn"
+          onClick={ () => handleDrink() }
+        >
+          Drink
+        </button>
+      </div>
       { favoriteRecipe && favoriteRecipe.map((each, i) => (
         each.type === 'food'
           ? (
             <div
+              className="card"
               key={ i }
             >
               <Link
                 to={ `/foods/${each.id}` }
+                className="card-body"
               >
                 <img
                   data-testid={ `${i}-horizontal-image` }
                   alt={ each.name }
                   src={ each.image }
                   width="150px"
+                  className="card-img-top"
                 />
                 <p
                   data-testid={ `${i}-horizontal-top-text` }
@@ -109,6 +132,8 @@ function FavoriteRecipes() {
           )
           : (
             <div
+              className="card"
+              width="150px"
               key={ i }
             >
               <Link
@@ -116,23 +141,38 @@ function FavoriteRecipes() {
               >
 
                 <img
+                  className="card-img-top img-thumbnail"
+                  width="150px"
                   data-testid={ `${i}-horizontal-image` }
                   alt={ each.name }
                   src={ each.image }
-                  width="150px"
                 />
-                <p
-                  data-testid={ `${i}-horizontal-top-text` }
+                <div
+                  className="card-body"
                 >
-                  { each.alcoholicOrNot }
-                </p>
-                <h5
-                  data-testid={ `${i}-horizontal-name` }
-                >
-                  { each.name }
-                </h5>
+                  <p
+                    className="d-flex
+                  justify-content-center
+                  mb-0
+                  "
+                    data-testid={ `${i}-horizontal-top-text` }
+                  >
+                    { each.alcoholicOrNot }
+                  </p>
+                  <h5
+                    className="d-flex
+                  justify-content-center
+                  mb-0
+                  align-items-space-between
+                  "
+                    data-testid={ `${i}-horizontal-name` }
+                  >
+                    { each.name }
+                  </h5>
+                </div>
               </Link>
               <button
+                className="btn btn-light"
                 data-testid={ `${i}-horizontal-share-btn` }
                 type="button"
                 src={ shareIcon }
@@ -145,6 +185,7 @@ function FavoriteRecipes() {
               </button>
               {showMsg && <p>Link copied!</p>}
               <button
+                className="btn btn-light"
                 data-testid={ `${i}-horizontal-favorite-btn` }
                 type="button"
                 src={ blackHeartIcon }
