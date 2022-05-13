@@ -88,6 +88,7 @@ function IngredientProgress() {
         <div
           key={ i }
           data-testid={ `${i}-ingredient-step` }
+          className="container-ingredient-step"
         >
           <label
             htmlFor={ ingred }
@@ -106,14 +107,18 @@ function IngredientProgress() {
           </label>
         </div>
       ))}
-      <button
-        type="button"
-        data-testid="finish-recipe-btn"
-        disabled={ btnStatus }
-        onClick={ () => handleFinish(recipe) }
-      >
-        Finish Recipe
-      </button>
+      <div className="container-button-finish-recipe">
+        <button
+          className="btn-finish-recipe"
+          type="button"
+          data-testid="finish-recipe-btn"
+          disabled={ btnStatus }
+          onClick={ () => handleFinish(recipe) }
+        >
+          Finish Recipe
+        </button>
+      </div>
+
     </>
   );
 }

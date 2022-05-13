@@ -73,7 +73,8 @@ function FoodsInProgress() {
 
   return (
     <>
-      {/* <button
+      <div className="card container-card-progress">
+        {/* <button
         data-testid="favorite-btn"
         type="button"
         onClick={ toggleFill }
@@ -81,27 +82,36 @@ function FoodsInProgress() {
         >
         <img src={ isFavorite } alt="favorite" />
       </button> */}
-      <img
-        height="200"
-        width="300"
-        data-testid="recipe-photo"
-        src={ strMealThumb }
-        alt={ strMeal }
-      />
-      <h2 data-testid="recipe-title">{strMeal}</h2>
+        <img
+          className="card-img-top"
+          // height="200"
+          // width="300"
+          data-testid="recipe-photo"
+          src={ strMealThumb }
+          alt={ strMeal }
+        />
+        <h2
+          className="card-title"
+          data-testid="recipe-title"
+        >
+          {strMeal}
 
-      <h3 data-testid="recipe-category">{strCategory}</h3>
+        </h2>
 
-      <div>
-        <button
+        <h3 data-testid="recipe-category">{strCategory}</h3>
+      </div>
+      <div className="container-share-and-like">
+        <buttonshare-and-like
+          className="like-button-progress"
           data-testid="favorite-btn"
           type="button"
           onClick={ toggleFill }
           src={ isFavorite }
         >
           <img src={ isFavorite } alt="favorite" />
-        </button>
+        </buttonshare-and-like>
         <button
+          className="share-button-progress"
           data-testid="share-btn"
           type="button"
           onClick={ () => {
@@ -113,9 +123,9 @@ function FoodsInProgress() {
         </button>
         {showMsg && <p>Link copied!</p>}
       </div>
-
-      <p data-testid="instructions">{strInstructions}</p>
-
+      <div className="container-instruction-progress">
+        <p data-testid="instructions">{strInstructions}</p>
+      </div>
       <IngredientProgress />
     </>
   );
