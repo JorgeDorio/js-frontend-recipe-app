@@ -15,6 +15,10 @@ body {
   text-align: center;
 }
 
+.details-image {
+  border-radius: 10px;
+}
+
 .title-details {
   align-items: center;
   display: flex;
@@ -34,7 +38,8 @@ body {
 }
 
 .instructions-content {
-  background-color: rgba(115, 203, 48, 0.69);
+  background-color: #fb8a27ac;
+  padding: 20px;
   border-radius: 8px;
   margin: 10px auto;
   padding: 20px;
@@ -65,7 +70,9 @@ body {
 }
 
 .bottom-button {
-  background-color: rgb(21, 157, 21);
+  border: none;
+  height: 48px;
+  background-color: #fb8a27;
   border: none;
   color: white;
   font-size: 20px;

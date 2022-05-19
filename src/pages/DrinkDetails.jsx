@@ -124,6 +124,7 @@ function DrinkDetails() {
   return (
     <div className="details-container">
       <img
+        className="details-image"
         height="200"
         width="300"
         data-testid="recipe-photo"
